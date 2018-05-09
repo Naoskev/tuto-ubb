@@ -2,24 +2,39 @@
  */
 public class Tile {
 
-	int x;
-    int y;
+    public int X { get; private set; }
+
+    public int Y { get; private set; }
 
     World world;
 
-    enum TileType    
+    public enum TileType    
     {
         Empty, Floor
     }
 
-    TileType type = TileType.Empty;
+    private TileType type = TileType.Empty;
+    public TileType Type
+    {
+        get
+        {
+            return type;
+        }
+
+        set
+        {
+            type = value;
+        }
+    }
 
     LooseObject looseObject;
     InstaledObject installedObject;
 
+
+
     public Tile(World world, int x, int y){
-        this.x = x;
-        this.y = y;
+        this.X = x;
+        this.Y = y;
         this.world = world;
     }
 

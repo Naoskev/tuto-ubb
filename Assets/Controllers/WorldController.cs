@@ -57,4 +57,11 @@ public class WorldController : MonoBehaviour {
 			Debug.Log("Unknown tile type : "+tileData.Type+" for tile ["+tileData.X+";"+tileData.Y+"]");
 		}
 	}
+
+	public Tile getTileFromVector(Vector3 coord){
+		int x = Mathf.FloorToInt(coord.x);
+		int y = Mathf.FloorToInt(coord.y);
+		
+		return WorldController.Instance.World.getTileAt(x, y);
+	}
 }

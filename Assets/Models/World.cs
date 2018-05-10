@@ -28,12 +28,16 @@ public class World {
 
 
     public Tile getTileAt(int x, int y){
-		if(x < 0 || x > this.Width){
-			throw new System.ArgumentOutOfRangeException("x", "La valeur X ("+x+") est en dehors du tableau (max abscisse : "+Width+")");			
+		if(x < 0 || x > this.Width || y < 0 || y> this.Heigth){
+			System.Console.Error.WriteLine( "Tile ["+x+";"+y+"] does not exist.");
+			return null;			
 		}
-		if( y < 0 || y> this.Heigth){
-			throw new System.ArgumentOutOfRangeException("y", "La valeur Y ("+y+") est en dehors du tableau (max ordonnée : "+Heigth+")");			
-		}
+		// if(x < 0 || x > this.Width){
+		// 	throw new System.ArgumentOutOfRangeException("x", "La valeur X ("+x+") est en dehors du tableau (max abscisse : "+Width+")");			
+		// }
+		// if( y < 0 || y> this.Heigth){
+		// 	throw new System.ArgumentOutOfRangeException("y", "La valeur Y ("+y+") est en dehors du tableau (max ordonnée : "+Heigth+")");			
+		// }
 		return this.tiles[x, y];
 	}
 

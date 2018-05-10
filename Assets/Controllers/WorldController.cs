@@ -6,17 +6,21 @@ public class WorldController : MonoBehaviour {
 
 	public Sprite floorSprite;
 
-	World world;
+	public static WorldController Instance{get; protected set;}
+	public World World {get; protected set; }
 
 	// Use this for initialization
 	void Start () {
-		this.world = new World();
+		if(Instance != null)
+			Debug.LogError("There should be only one world controller.");
+		WorldController.Instance = this;
+		this.World = new World();
 
-		for (int x = 0; x < world.Width; x++)
+		for (int x = 0; x < World.Width; x++)
 		{
-			for (int y = 0; y < world.Heigth; y++)
+			for (int y = 0; y < World.Heigth; y++)
 			{
-				Tile tile_data = world.getTileAt(x,y);
+				Tile tile_data = World.getTileAt(x,y);
 				GameObject tile_go = new GameObject("tile_at_"+x+"_"+y);
 				tile_go.transform.position = new Vector3Int(tile_data.X, tile_data.Y, 0);
 				tile_go.transform.SetParent(tile_go.transform, true);
@@ -25,7 +29,7 @@ public class WorldController : MonoBehaviour {
 				tile_data.registerTileTypeChangedCallback((tile)=> OnTileTypeChanged(tile, tile_go));
 			}
 		}
-		world.randomizeTilesType();
+		World.randomizeTilesType();
 
 		Debug.Log("World created");	
 	}

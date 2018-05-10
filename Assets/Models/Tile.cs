@@ -1,5 +1,7 @@
-﻿/** Elmeent atomique represantant le sol
- */
+﻿
+using System;
+/** Element atomique represantant le sol
+*/
 public class Tile {
 
     public int X { get; private set; }
@@ -7,6 +9,8 @@ public class Tile {
     public int Y { get; private set; }
 
     World world;
+
+    private Action<Tile> cbTileTypeChanged;
 
     public enum TileType    
     {
@@ -23,7 +27,10 @@ public class Tile {
 
         set
         {
+            TileType oldType = type;
             type = value;
+            if(cbTileTypeChanged != null && type != oldType)
+                cbTileTypeChanged(this);
         }
     }
 
@@ -36,6 +43,14 @@ public class Tile {
         this.X = x;
         this.Y = y;
         this.world = world;
+    }
+
+    public void registerTileTypeChangedCallback(Action<Tile> callback){
+        this.cbTileTypeChanged += callback;
+    }
+
+    public void unregisterTileTypeChangedCallback(Action<Tile> callback){
+        this.cbTileTypeChanged -= callback;
     }
 
 }

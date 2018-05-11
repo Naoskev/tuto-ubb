@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class MouseController : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class MouseController : MonoBehaviour {
 
 	private Vector3? dragMouseStartPosition;
 	private List< GameObject> dragAndDropPreviewObjects;
+
+	private Tile.TileType buildMode = Tile.TileType.Floor;
 
 	// Use this for initialization
 	void Start () {
@@ -57,7 +60,11 @@ public class MouseController : MonoBehaviour {
 		Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, 3f, 25f);
 	}
 
-	private void dragAndDropTiles(){		
+	private void dragAndDropTiles(){	
+		if(EventSystem.current.IsPointerOverGameObject()){
+			return;
+		}
+
 		if(Input.GetMouseButtonDown((int)MouseButton.LeftClick)){
 			dragMouseStartPosition = currFramePosition;
 		}
@@ -103,7 +110,7 @@ public class MouseController : MonoBehaviour {
 					{
 						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
 						if(tileToChange != null){
-							tileToChange.Type = Tile.TileType.Floor;
+							tileToChange.Type = this.buildMode;
 						}
 					}
 					
@@ -118,6 +125,13 @@ public class MouseController : MonoBehaviour {
 		Vector3 vector = Camera.main.ScreenToWorldPoint( Input.mousePosition);
 		vector.z = 0;
 		return vector;
+	}
+
+	public void SetBuildMode_Floor(){
+		this.buildMode = Tile.TileType.Floor;
+	}
+	public void SetBuildMode_Bulldoze(){
+		this.buildMode = Tile.TileType.Empty;
 	}
 
 }

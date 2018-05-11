@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WorldController : MonoBehaviour {
 
+	private Dictionary<Tile, GameObject> tileGameObjects = new Dictionary<Tile, GameObject>();
+
 	public Sprite floorSprite;
 
 	public static WorldController Instance{get; protected set;}
@@ -22,11 +24,13 @@ public class WorldController : MonoBehaviour {
 			{
 				Tile tile_data = World.getTileAt(x,y);
 				GameObject tile_go = new GameObject("tile_at_"+x+"_"+y);
+				tileGameObjects.Add(tile_data, tile_go);
+
 				tile_go.transform.position = new Vector3Int(tile_data.X, tile_data.Y, 0);
 				tile_go.transform.SetParent(this.transform, true);
 
 				tile_go.AddComponent<SpriteRenderer>();
-				tile_data.registerTileTypeChangedCallback((tile)=> OnTileTypeChanged(tile, tile_go));
+				tile_data.registerTileTypeChangedCallback(OnTileTypeChanged);
 			}
 		}
 		World.randomizeTilesType();
@@ -45,16 +49,26 @@ public class WorldController : MonoBehaviour {
 		
 	}
 
-	public void OnTileTypeChanged(Tile tileData, GameObject tileGO){
-		if(tileData.Type == Tile.TileType.Floor){
-			tileGO.GetComponent<SpriteRenderer>().sprite = floorSprite;
+	public void OnTileTypeChanged(Tile tile_data){
+		if(this.tileGameObjects.ContainsKey(tile_data) == false) {
+			Debug.LogError("tileGameObjects doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
+			return;
 		}
-		else if(tileData.Type == Tile.TileType.Empty)
+		GameObject tile_go = this.tileGameObjects[tile_data];
+		if(tile_go == null){
+			Debug.LogError("Missing game object for tile "+tile_data);
+			return;
+		}
+
+		if(tile_data.Type == Tile.TileType.Floor){
+			tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
+		}
+		else if(tile_data.Type == Tile.TileType.Empty)
 		{
-			tileGO.GetComponent<SpriteRenderer>().sprite = null;			
+			tile_go.GetComponent<SpriteRenderer>().sprite = null;			
 		}
 		else {
-			Debug.Log("Unknown tile type : "+tileData.Type+" for tile ["+tileData.X+";"+tileData.Y+"]");
+			Debug.Log("Unknown tile type : "+tile_data.Type+" for tile ["+tile_data.X+";"+tile_data.Y+"]");
 		}
 	}
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MouseController : MonoBehaviour {
 
@@ -51,6 +52,9 @@ public class MouseController : MonoBehaviour {
 			Vector3 diff = lastFrameMousePosition - currFramePosition;
 			Camera.main.transform.Translate(diff);
 		}
+
+		Camera.main.orthographicSize -= Camera.main.orthographicSize * Input.GetAxis("Mouse ScrollWheel");
+		Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, 3f, 25f);
 	}
 
 	private void dragAndDropTiles(){		
@@ -74,20 +78,20 @@ public class MouseController : MonoBehaviour {
 				end_y = temp;
 			}
 
-			while( this.dragAndDropPreviewObjects.Count > 0){
-				GameObject ob = this.dragAndDropPreviewObjects[0];
-				this.dragAndDropPreviewObjects.RemoveAt(0);
-				SimplePool.Despawn(ob);
-			}
+			this.dragAndDropPreviewObjects.ForEach((ob) => SimplePool.Despawn(ob));
+			this.dragAndDropPreviewObjects.Clear();
 
 			if(Input.GetMouseButton((int)MouseButton.LeftClick)){
 				for (int x = start_x; x <= end_x; x++)
 				{
 					for (int y = start_y; y <= end_y; y++)
 					{
-						GameObject circleGO = SimplePool.Spawn(circleCursorPrefab, new Vector3(x,y,0), Quaternion.identity);
-						circleGO.transform.SetParent(this.transform, true);
-						this.dragAndDropPreviewObjects.Add(circleGO);
+						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
+						if(tileToChange != null){
+							GameObject circleGO = SimplePool.Spawn(circleCursorPrefab, new Vector3(x,y,0), Quaternion.identity);
+							circleGO.transform.SetParent(this.transform, true);
+							this.dragAndDropPreviewObjects.Add(circleGO);
+						}
 					}					
 				}
 			}

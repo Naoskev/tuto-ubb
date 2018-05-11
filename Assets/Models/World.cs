@@ -28,7 +28,7 @@ public class World {
 
 
     public Tile getTileAt(int x, int y){
-		if(x < 0 || x > this.Width || y < 0 || y> this.Heigth){
+		if(x < 0 || x >= this.Width || y < 0 || y>= this.Heigth){
 			System.Console.Error.WriteLine( "Tile ["+x+";"+y+"] does not exist.");
 			return null;			
 		}

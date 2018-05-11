@@ -11,15 +11,16 @@ public class MouseController : MonoBehaviour {
 
 	}
 
-	public GameObject circleCursor;
+	public GameObject circleCursorPrefab;
 	private Vector3 lastFrameMousePosition;
 	private Vector3 currFramePosition;
 
 	private Vector3? dragMouseStartPosition;
+	private List< GameObject> dragAndDropPreviewObjects;
 
 	// Use this for initialization
 	void Start () {
-		
+		this.dragAndDropPreviewObjects = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -56,35 +57,55 @@ public class MouseController : MonoBehaviour {
 		if(Input.GetMouseButtonDown((int)MouseButton.LeftClick)){
 			dragMouseStartPosition = currFramePosition;
 		}
-		if(Input.GetMouseButtonUp((int)MouseButton.LeftClick) && dragMouseStartPosition.HasValue){
+		if(dragMouseStartPosition.HasValue){
 			int start_x = Mathf.FloorToInt( dragMouseStartPosition.Value.x);
 			int end_x = Mathf.FloorToInt(currFramePosition.x);
+			int start_y = Mathf.FloorToInt( dragMouseStartPosition.Value.y);
+			int end_y = Mathf.FloorToInt(currFramePosition.y);
+
 			if(start_x > end_x){
 				int temp = start_x;
 				start_x = end_x;
 				end_x = temp;
 			}
-			int start_y = Mathf.FloorToInt( dragMouseStartPosition.Value.y);
-			int end_y = Mathf.FloorToInt(currFramePosition.y);
 			if(start_y > end_y){
 				int temp = start_y;
 				start_y = end_y;
 				end_y = temp;
 			}
 
-			for (int x = start_x; x <= end_x; x++)
-			{
-				for (int y = start_y; y <= end_y; y++)
-				{
-					Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
-					if(tileToChange != null){
-						tileToChange.Type = Tile.TileType.Floor;
-					}
-				}
-				
+			while( this.dragAndDropPreviewObjects.Count > 0){
+				GameObject ob = this.dragAndDropPreviewObjects[0];
+				this.dragAndDropPreviewObjects.RemoveAt(0);
+				SimplePool.Despawn(ob);
 			}
 
-			dragMouseStartPosition = null;
+			if(Input.GetMouseButton((int)MouseButton.LeftClick)){
+				for (int x = start_x; x <= end_x; x++)
+				{
+					for (int y = start_y; y <= end_y; y++)
+					{
+						GameObject circleGO = SimplePool.Spawn(circleCursorPrefab, new Vector3(x,y,0), Quaternion.identity);
+						circleGO.transform.SetParent(this.transform, true);
+						this.dragAndDropPreviewObjects.Add(circleGO);
+					}					
+				}
+			}
+
+			if(Input.GetMouseButtonUp((int)MouseButton.LeftClick)){
+				for (int x = start_x; x <= end_x; x++)
+				{
+					for (int y = start_y; y <= end_y; y++)
+					{
+						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
+						if(tileToChange != null){
+							tileToChange.Type = Tile.TileType.Floor;
+						}
+					}
+					
+				}
+				dragMouseStartPosition = null;
+			}
 		}
 	}
 

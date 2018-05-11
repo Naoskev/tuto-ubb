@@ -23,7 +23,7 @@ public class WorldController : MonoBehaviour {
 				Tile tile_data = World.getTileAt(x,y);
 				GameObject tile_go = new GameObject("tile_at_"+x+"_"+y);
 				tile_go.transform.position = new Vector3Int(tile_data.X, tile_data.Y, 0);
-				tile_go.transform.SetParent(tile_go.transform, true);
+				tile_go.transform.SetParent(this.transform, true);
 
 				tile_go.AddComponent<SpriteRenderer>();
 				tile_data.registerTileTypeChangedCallback((tile)=> OnTileTypeChanged(tile, tile_go));

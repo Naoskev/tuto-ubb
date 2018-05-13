@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collection.Generic;
 
 /** Contient tous les élements du sol du jeu
  */
@@ -10,6 +10,7 @@ public class World {
 
     public int Heigth { get; private set; }
 
+	Dictionnary<string, InstalledObject> installedObjectPrototypes;
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
@@ -24,6 +25,15 @@ public class World {
 				this.tiles[x,y] = new Tile(this, x, y);
 			}
 		}
+
+		this.initializeInstalledObjectPrototypes();
+	}
+
+	void initializeInstalledObjectPrototypes(){
+		this.installedObjectPrototypes = new Dictionnary<string, InstalledObject>();
+
+
+		this.installedObjectPrototypes.Add("Wall", InstalledObject.CreatePrototype("Wall", 1f, 1,1));
 	}
 
 

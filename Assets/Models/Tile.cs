@@ -35,7 +35,7 @@ public class Tile {
     }
 
     LooseObject looseObject;
-    InstaledObject installedObject;
+    InstalledObject installedObject;
 
 
 
@@ -53,4 +53,18 @@ public class Tile {
         this.cbTileTypeChanged -= callback;
     }
 
+    public bool PlaceInstalledObject(InstalledObject installedObject){
+        if(installedObject == null){
+            this.installedObject = null;
+            return true;
+        }
+
+        if(this.installedObject != null){
+            return false;
+        }
+
+
+        this.installedObject = installedObject;
+        return true;
+    }
 }

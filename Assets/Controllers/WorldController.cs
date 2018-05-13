@@ -60,10 +60,10 @@ public class WorldController : MonoBehaviour {
 			return;
 		}
 
-		if(tile_data.Type == Tile.TileType.Floor){
+		if(tile_data.Type == TileType.Floor){
 			tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
 		}
-		else if(tile_data.Type == Tile.TileType.Empty)
+		else if(tile_data.Type == TileType.Empty)
 		{
 			tile_go.GetComponent<SpriteRenderer>().sprite = null;			
 		}

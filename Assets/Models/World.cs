@@ -47,10 +47,10 @@ public class World {
 		foreach (var tile in this.tiles)
 		{
 			if(random.Next(0,2) == 0){
-				tile.Type = Tile.TileType.Empty;
+				tile.Type = TileType.Empty;
 			}
 			else{
-				tile.Type = Tile.TileType.Floor;
+				tile.Type = TileType.Floor;
 			}
 		}
 	}

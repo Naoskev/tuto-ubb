@@ -20,7 +20,7 @@ public class MouseController : MonoBehaviour {
 	private Vector3? dragMouseStartPosition;
 	private List< GameObject> dragAndDropPreviewObjects;
 
-	private Tile.TileType buildMode = Tile.TileType.Floor;
+	private TileType buildMode = TileType.Floor;
 
 	// Use this for initialization
 	void Start () {
@@ -128,10 +128,10 @@ public class MouseController : MonoBehaviour {
 	}
 
 	public void SetBuildMode_Floor(){
-		this.buildMode = Tile.TileType.Floor;
+		this.buildMode = TileType.Floor;
 	}
 	public void SetBuildMode_Bulldoze(){
-		this.buildMode = Tile.TileType.Empty;
+		this.buildMode = TileType.Empty;
 	}
 
 }

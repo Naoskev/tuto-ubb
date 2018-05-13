@@ -2,6 +2,10 @@
 using System;
 /** Element atomique represantant le sol
 */
+public enum TileType    
+{
+    Empty, Floor
+}
 public class Tile {
 
     public int X { get; private set; }
@@ -12,10 +16,6 @@ public class Tile {
 
     private Action<Tile> cbTileTypeChanged;
 
-    public enum TileType    
-    {
-        Empty, Floor
-    }
 
     private TileType type = TileType.Empty;
     public TileType Type

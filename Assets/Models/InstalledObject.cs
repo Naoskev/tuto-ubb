@@ -1,12 +1,12 @@
 ﻿/** Objet fixe */
 public class InstalledObject {
 
-    string Id {get; private set;};
+    public string Id {get; protected set;}
 
-    int Width {get; protected set; };
-    int Height {get; protected set; };
+    public int Width {get; protected set; }
+    public int Height {get; protected set; }
 
-    float MovementCost {get; protected set;};
+    public float MovementCost {get; protected set;}
 
     Tile masterTile;
 

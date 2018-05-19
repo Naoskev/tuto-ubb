@@ -5,8 +5,10 @@ using UnityEngine;
 public class WorldController : MonoBehaviour {
 
 	private Dictionary<Tile, GameObject> tileGameObjects = new Dictionary<Tile, GameObject>();
+	private Dictionary<InstalledObject, GameObject> installedObjectGameObjects = new Dictionary<InstalledObject, GameObject>();
 
 	public Sprite floorSprite;
+	public Sprite wallSprite;
 
 	public static WorldController Instance{get; protected set;}
 	public World World {get; protected set; }
@@ -17,6 +19,7 @@ public class WorldController : MonoBehaviour {
 			Debug.LogError("There should be only one world controller.");
 		WorldController.Instance = this;
 		this.World = new World();
+		this.World.RegisterOnInstalledObjectPlaced(this.OnInstalledObjectPlaced);
 
 		for (int x = 0; x < World.Width; x++)
 		{
@@ -77,5 +80,21 @@ public class WorldController : MonoBehaviour {
 		int y = Mathf.FloorToInt(coord.y);
 		
 		return WorldController.Instance.World.getTileAt(x, y);
+	}
+
+	public void OnInstalledObjectPlaced(InstalledObject installedObject){
+		
+		GameObject installedObject_go = new GameObject( installedObject.Id +"_at_"+installedObject.MasterTile.X+"_"+installedObject.MasterTile.Y);
+		this.installedObjectGameObjects.Add(installedObject, installedObject_go);
+
+		installedObject_go.transform.position = new Vector3Int(installedObject.MasterTile.X,installedObject.MasterTile.Y, 0);
+		installedObject_go.transform.SetParent(this.transform, true);
+
+		installedObject_go.AddComponent<SpriteRenderer>().sprite = this.wallSprite;
+		installedObject.RegisterOnobjectChangeCallback(OnInstalledObjectChange);
+	}
+
+	public void OnInstalledObjectChange(InstalledObject obj){
+
 	}
 }

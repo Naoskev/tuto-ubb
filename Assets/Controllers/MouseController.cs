@@ -21,6 +21,8 @@ public class MouseController : MonoBehaviour {
 	private List< GameObject> dragAndDropPreviewObjects;
 
 	private TileType buildMode = TileType.Floor;
+	private bool tileBuildMode = true;
+	private string installedObjectId= null;
 
 	// Use this for initialization
 	void Start () {
@@ -110,7 +112,12 @@ public class MouseController : MonoBehaviour {
 					{
 						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
 						if(tileToChange != null){
-							tileToChange.Type = this.buildMode;
+							if(this.tileBuildMode){
+								tileToChange.Type = this.buildMode;
+							}
+							else {
+								WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
+							}
 						}
 					}
 					
@@ -127,10 +134,16 @@ public class MouseController : MonoBehaviour {
 		return vector;
 	}
 
+	public void SetBuildMode_InstalledObject(string id){
+		this.installedObjectId = id;
+		this.tileBuildMode = false;
+	}
 	public void SetBuildMode_Floor(){
+		this.tileBuildMode = true;
 		this.buildMode = TileType.Floor;
 	}
 	public void SetBuildMode_Bulldoze(){
+		this.tileBuildMode = true;
 		this.buildMode = TileType.Empty;
 	}
 

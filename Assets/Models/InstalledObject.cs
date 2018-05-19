@@ -1,4 +1,6 @@
-﻿/** Objet fixe */
+﻿using System;
+
+/** Objet fixe */
 public class InstalledObject {
 
     public string Id {get; protected set;}
@@ -8,7 +10,9 @@ public class InstalledObject {
 
     public float MovementCost {get; protected set;}
 
-    Tile masterTile;
+    public Tile MasterTile {get; protected set; }
+
+    Action<InstalledObject> cbOnChanged;
 
     protected InstalledObject(){
 
@@ -31,12 +35,19 @@ public class InstalledObject {
         obj.Height = proto.Height;
 
         // TODO : gérer les objets sur plusieurs tuiles
-        obj.masterTile = tile;
+        obj.MasterTile = tile;
 
         if(tile.PlaceInstalledObject(obj) == false){
             return null;
         }
 
         return obj;
+    }
+
+    public void RegisterOnobjectChangeCallback(Action<InstalledObject> callback){
+        this.cbOnChanged += callback;
+    }
+    public void UnregisterOnobjectChangeCallback(Action<InstalledObject> callback){
+        this.cbOnChanged -= callback;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 /** Contient tous les élements du sol du jeu
  */
@@ -11,6 +12,8 @@ public class World {
     public int Heigth { get; private set; }
 
 	private Dictionary<string, InstalledObject> installedObjectPrototypes;
+
+	private Action<InstalledObject> cbOnInstalledObjectPlaced;
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
@@ -33,7 +36,7 @@ public class World {
 		this.installedObjectPrototypes = new Dictionary<string, InstalledObject>();
 
 
-		this.installedObjectPrototypes.Add("Wall", InstalledObject.CreatePrototype("Wall", 1f, 1,1));
+		this.installedObjectPrototypes.Add("wall", InstalledObject.CreatePrototype("wall", 1f, 1,1));
 	}
 
 
@@ -64,4 +67,31 @@ public class World {
 			}
 		}
 	}
+
+	public void PlaceInstalledObject(string objectType, Tile tile){
+		if(this.installedObjectPrototypes.ContainsKey(objectType) == false){
+			return;
+		}
+
+		InstalledObject obj = InstalledObject.PlaceInstance(this.installedObjectPrototypes[objectType], tile);
+
+		if(obj == null){
+			return;
+		}
+
+		if(this.cbOnInstalledObjectPlaced != null){
+			cbOnInstalledObjectPlaced(obj);
+		}
+	}
+
+	public void RegisterOnInstalledObjectPlaced(Action<InstalledObject> callback){
+		this.cbOnInstalledObjectPlaced += callback;
+	}
+	
+	public void UnregisterOnInstalledObjectPlaced(Action<InstalledObject> callback){
+		this.cbOnInstalledObjectPlaced -= callback;
+	}
+	
+
+
 }

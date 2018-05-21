@@ -36,7 +36,7 @@ public class World {
 		this.installedObjectPrototypes = new Dictionary<string, InstalledObject>();
 
 
-		this.installedObjectPrototypes.Add("wall", InstalledObject.CreatePrototype("wall", 1f, 1,1));
+		this.installedObjectPrototypes.Add("Wall", InstalledObject.CreatePrototype("Wall", 1f, 1,1));
 	}
 
 

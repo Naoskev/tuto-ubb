@@ -82,8 +82,7 @@ public class WorldController : MonoBehaviour {
 		return WorldController.Instance.World.getTileAt(x, y);
 	}
 
-	public void OnInstalledObjectPlaced(InstalledObject installedObject){
-		
+	public void OnInstalledObjectPlaced(InstalledObject installedObject){		
 		GameObject installedObject_go = new GameObject( installedObject.Id +"_at_"+installedObject.MasterTile.X+"_"+installedObject.MasterTile.Y);
 		this.installedObjectGameObjects.Add(installedObject, installedObject_go);
 
@@ -91,7 +90,7 @@ public class WorldController : MonoBehaviour {
 		installedObject_go.transform.SetParent(this.transform, true);
 
 		installedObject_go.AddComponent<SpriteRenderer>().sprite = this.wallSprite;
-		installedObject.RegisterOnobjectChangeCallback(OnInstalledObjectChange);
+		installedObject.RegisterOnObjectChangeCallback(OnInstalledObjectChange);
 	}
 
 	public void OnInstalledObjectChange(InstalledObject obj){

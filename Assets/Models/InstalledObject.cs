@@ -44,10 +44,10 @@ public class InstalledObject {
         return obj;
     }
 
-    public void RegisterOnobjectChangeCallback(Action<InstalledObject> callback){
+    public void RegisterOnObjectChangeCallback(Action<InstalledObject> callback){
         this.cbOnChanged += callback;
     }
-    public void UnregisterOnobjectChangeCallback(Action<InstalledObject> callback){
+    public void UnregisterOnObjectChangeCallback(Action<InstalledObject> callback){
         this.cbOnChanged -= callback;
     }
 }

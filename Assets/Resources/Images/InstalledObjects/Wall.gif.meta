@@ -2,31 +2,31 @@ fileFormatVersion: 2
 guid: a213646ec0a89b54591c59cce0637b1a
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Walls_
-    21300002: Walls_S
-    21300004: Walls_W
-    21300006: Walls_N-E-W
-    21300008: Walls_N-E
-    21300010: Walls_N-E-S-W
-    21300012: Walls_E-S-W
-    21300014: Walls_N
-    21300016: Walls_E
-    21300018: Walls_E-W
-    21300020: Walls_N-W
-    21300022: Walls_S-W
-    21300024: Walls_E-S
-    21300026: Walls_0
-    21300028: Walls_N-S-W
-    21300030: Walls_N-E-S
-    21300032: Walls_E-SE-S
-    21300034: Walls_E-SE-S-SW-W
-    21300036: Walls_S-SW-W
-    21300038: Walls_N-NE-E
-    21300040: Walls_N-NE-E-W-NW
-    21300042: Walls_N-W-NW
-    21300044: Walls_N-NE-E-SE-S
-    21300046: Walls_ALL
-    21300048: Walls_N-S-SW-W-NW
+    21300000: Wall_
+    21300002: Wall_S
+    21300004: Wall_W
+    21300006: Wall_N-E-W
+    21300008: Wall_N-E
+    21300010: Wall_N-E-S-W
+    21300012: Wall_E-S-W
+    21300014: Wall_N
+    21300016: Wall_E
+    21300018: Wall_E-W
+    21300020: Wall_N-W
+    21300022: Wall_S-W
+    21300024: Wall_E-S
+    21300026: Wall_N_S
+    21300028: Wall_N-S-W
+    21300030: Wall_N-E-S
+    21300032: Wall_E-SE-S
+    21300034: Wall_E-SE-S-SW-W
+    21300036: Wall_S-SW-W
+    21300038: Wall_N-NE-E
+    21300040: Wall_N-NE-E-W-NW
+    21300042: Wall_N-W-NW
+    21300044: Wall_N-NE-E-SE-S
+    21300046: Wall_ALL
+    21300048: Wall_N-S-SW-W-NW
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -107,7 +107,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Walls_
+      name: Wall_
       rect:
         serializedVersion: 2
         x: 0
@@ -127,7 +127,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_S
+      name: Wall_S
       rect:
         serializedVersion: 2
         x: 160
@@ -147,7 +147,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_W
+      name: Wall_W
       rect:
         serializedVersion: 2
         x: 192
@@ -167,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-E-W
+      name: Wall_N-E-W
       rect:
         serializedVersion: 2
         x: 320
@@ -187,7 +187,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-E
+      name: Wall_N-E
       rect:
         serializedVersion: 2
         x: 0
@@ -207,7 +207,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-E-S-W
+      name: Wall_N-E-S-W
       rect:
         serializedVersion: 2
         x: 160
@@ -227,7 +227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E-S-W
+      name: Wall_E-S-W
       rect:
         serializedVersion: 2
         x: 320
@@ -247,7 +247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N
+      name: Wall_N
       rect:
         serializedVersion: 2
         x: 160
@@ -267,7 +267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E
+      name: Wall_E
       rect:
         serializedVersion: 2
         x: 128
@@ -287,7 +287,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E-W
+      name: Wall_E-W
       rect:
         serializedVersion: 2
         x: 32
@@ -307,7 +307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-W
+      name: Wall_N-W
       rect:
         serializedVersion: 2
         x: 64
@@ -327,7 +327,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_S-W
+      name: Wall_S-W
       rect:
         serializedVersion: 2
         x: 64
@@ -347,7 +347,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E-S
+      name: Wall_E-S
       rect:
         serializedVersion: 2
         x: 0
@@ -367,7 +367,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_0
+      name: Wall_N_S
       rect:
         serializedVersion: 2
         x: 0
@@ -387,7 +387,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-S-W
+      name: Wall_N-S-W
       rect:
         serializedVersion: 2
         x: 128
@@ -407,7 +407,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-E-S
+      name: Wall_N-E-S
       rect:
         serializedVersion: 2
         x: 192
@@ -427,7 +427,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E-SE-S
+      name: Wall_E-SE-S
       rect:
         serializedVersion: 2
         x: 256
@@ -447,7 +447,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_E-SE-S-SW-W
+      name: Wall_E-SE-S-SW-W
       rect:
         serializedVersion: 2
         x: 288
@@ -455,7 +455,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -467,7 +467,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_S-SW-W
+      name: Wall_S-SW-W
       rect:
         serializedVersion: 2
         x: 320
@@ -487,7 +487,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-NE-E
+      name: Wall_N-NE-E
       rect:
         serializedVersion: 2
         x: 256
@@ -507,7 +507,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-NE-E-W-NW
+      name: Wall_N-NE-E-W-NW
       rect:
         serializedVersion: 2
         x: 288
@@ -527,7 +527,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-W-NW
+      name: Wall_N-W-NW
       rect:
         serializedVersion: 2
         x: 320
@@ -547,7 +547,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-NE-E-SE-S
+      name: Wall_N-NE-E-SE-S
       rect:
         serializedVersion: 2
         x: 256
@@ -567,7 +567,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_ALL
+      name: Wall_ALL
       rect:
         serializedVersion: 2
         x: 288
@@ -587,7 +587,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walls_N-S-SW-W-NW
+      name: Wall_N-S-SW-W-NW
       rect:
         serializedVersion: 2
         x: 320

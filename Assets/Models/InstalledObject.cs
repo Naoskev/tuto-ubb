@@ -12,18 +12,21 @@ public class InstalledObject {
 
     public Tile MasterTile {get; protected set; }
 
+    public bool IsConnected {get; protected set;}
+
     Action<InstalledObject> cbOnChanged;
 
     protected InstalledObject(){
 
     }
 
-    public static InstalledObject CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1){
+    public static InstalledObject CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
         InstalledObject obj = new InstalledObject();
         obj.Id = id;
         obj.MovementCost = movementCost;
         obj.Width = width;
         obj.Height = height;
+        obj.IsConnected = isConnected;
         return obj;
     }
 
@@ -33,6 +36,7 @@ public class InstalledObject {
         obj.MovementCost = proto.MovementCost;
         obj.Width = proto.Width;
         obj.Height = proto.Height;
+        obj.IsConnected = proto.IsConnected;
 
         // TODO : gérer les objets sur plusieurs tuiles
         obj.MasterTile = tile;

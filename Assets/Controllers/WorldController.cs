@@ -7,14 +7,21 @@ public class WorldController : MonoBehaviour {
 	private Dictionary<Tile, GameObject> tileGameObjects = new Dictionary<Tile, GameObject>();
 	private Dictionary<InstalledObject, GameObject> installedObjectGameObjects = new Dictionary<InstalledObject, GameObject>();
 
+	private Dictionary<string, Sprite> installedObjectSprites = new Dictionary<string, Sprite>();
+
 	public Sprite floorSprite;
-	public Sprite wallSprite;
 
 	public static WorldController Instance{get; protected set;}
 	public World World {get; protected set; }
 
 	// Use this for initialization
 	void Start () {
+		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/InstalledObjects");
+		foreach (Sprite sprite in sprites)
+		{
+			this.installedObjectSprites.Add(sprite.name, sprite);
+		}
+
 		if(Instance != null)
 			Debug.LogError("There should be only one world controller.");
 		WorldController.Instance = this;
@@ -89,8 +96,23 @@ public class WorldController : MonoBehaviour {
 		installedObject_go.transform.position = new Vector3Int(installedObject.MasterTile.X,installedObject.MasterTile.Y, 0);
 		installedObject_go.transform.SetParent(this.transform, true);
 
-		installedObject_go.AddComponent<SpriteRenderer>().sprite = this.wallSprite;
+		installedObject_go.AddComponent<SpriteRenderer>().sprite = this.getInstalledObjectSprite(installedObject);
 		installedObject.RegisterOnObjectChangeCallback(OnInstalledObjectChange);
+	}
+
+	private Sprite getInstalledObjectSprite(InstalledObject installedObject){
+		string spriteName = installedObject.Id;
+		Debug.Log("place obj : "+spriteName);
+		if(installedObject.IsConnected){
+			spriteName += SpriteGetter.GetInstalledObjectSpriteName(installedObject.MasterTile.X, installedObject.MasterTile.Y, installedObject.Id);
+		}
+		if(this.installedObjectSprites.ContainsKey(spriteName) == false){
+			Debug.LogError("Aucune sprite pour "+spriteName);
+			return null;
+		}
+		
+		Debug.Log("final name : "+spriteName);
+		return this.installedObjectSprites[spriteName];
 	}
 
 	public void OnInstalledObjectChange(InstalledObject obj){

@@ -35,7 +35,7 @@ public class Tile {
     }
 
     LooseObject looseObject;
-    InstalledObject installedObject;
+    public InstalledObject InstalledObject {get; protected set;}
 
 
 
@@ -55,16 +55,16 @@ public class Tile {
 
     public bool PlaceInstalledObject(InstalledObject installedObject){
         if(installedObject == null){
-            this.installedObject = null;
+            this.InstalledObject = null;
             return true;
         }
 
-        if(this.installedObject != null){
+        if(this.InstalledObject != null){
             return false;
         }
 
 
-        this.installedObject = installedObject;
+        this.InstalledObject = installedObject;
         return true;
     }
 }

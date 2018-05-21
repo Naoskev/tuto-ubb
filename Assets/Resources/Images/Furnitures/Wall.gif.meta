@@ -15,7 +15,7 @@ TextureImporter:
     21300020: Wall_N-W
     21300022: Wall_S-W
     21300024: Wall_E-S
-    21300026: Wall_N_S
+    21300026: Wall_N-S
     21300028: Wall_N-S-W
     21300030: Wall_N-E-S
     21300032: Wall_E-SE-S
@@ -234,8 +234,8 @@ TextureImporter:
         y: 172
         width: 32
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -367,7 +367,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall_N_S
+      name: Wall_N-S
       rect:
         serializedVersion: 2
         x: 0
@@ -454,8 +454,8 @@ TextureImporter:
         y: 76
         width: 32
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

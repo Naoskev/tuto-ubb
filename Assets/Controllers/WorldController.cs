@@ -103,7 +103,7 @@ public class WorldController : MonoBehaviour {
 	private Sprite getFurnitureSprite(Furniture furniture){
 		string spriteName = furniture.Id;
 		if(furniture.IsConnected){
-			spriteName += FurnitureUtility.GetFurnitureSpriteName(furniture.MasterTile.X, furniture.MasterTile.Y, furniture.Id);
+			spriteName += FurnitureUtility.GetFurnitureSpriteName(furniture);
 		}
 		if(this.furnitureSprites.ContainsKey(spriteName) == false){
 			Debug.LogError("Aucune sprite pour "+spriteName);

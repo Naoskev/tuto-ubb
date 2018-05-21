@@ -35,7 +35,7 @@ public class Tile {
     }
 
     LooseObject looseObject;
-    public InstalledObject InstalledObject {get; protected set;}
+    public Furniture Furniture {get; protected set;}
 
 
 
@@ -53,18 +53,18 @@ public class Tile {
         this.cbTileTypeChanged -= callback;
     }
 
-    public bool PlaceInstalledObject(InstalledObject installedObject){
-        if(installedObject == null){
-            this.InstalledObject = null;
+    public bool PlaceFurniture(Furniture furniture){
+        if(furniture == null){
+            this.Furniture = null;
             return true;
         }
 
-        if(this.InstalledObject != null){
+        if(this.Furniture != null){
             return false;
         }
 
 
-        this.InstalledObject = installedObject;
+        this.Furniture = furniture;
         return true;
     }
 }

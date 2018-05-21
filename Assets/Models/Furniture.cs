@@ -1,7 +1,7 @@
 ﻿using System;
 
 /** Objet fixe */
-public class InstalledObject {
+public class Furniture {
 
     public string Id {get; protected set;}
 
@@ -14,14 +14,14 @@ public class InstalledObject {
 
     public bool IsConnected {get; protected set;}
 
-    Action<InstalledObject> cbOnChanged;
+    Action<Furniture> cbOnChanged;
 
-    protected InstalledObject(){
+    protected Furniture(){
 
     }
 
-    public static InstalledObject CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
-        InstalledObject obj = new InstalledObject();
+    public static Furniture CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
+        Furniture obj = new Furniture();
         obj.Id = id;
         obj.MovementCost = movementCost;
         obj.Width = width;
@@ -30,8 +30,8 @@ public class InstalledObject {
         return obj;
     }
 
-    public static InstalledObject PlaceInstance(InstalledObject proto, Tile tile){
-        InstalledObject obj = new InstalledObject();
+    public static Furniture PlaceInstance(Furniture proto, Tile tile){
+        Furniture obj = new Furniture();
         obj.Id = proto.Id;
         obj.MovementCost = proto.MovementCost;
         obj.Width = proto.Width;
@@ -41,17 +41,21 @@ public class InstalledObject {
         // TODO : gérer les objets sur plusieurs tuiles
         obj.MasterTile = tile;
 
-        if(tile.PlaceInstalledObject(obj) == false){
+        if(tile.PlaceFurniture(obj) == false){
             return null;
+        }
+
+        if(obj.IsConnected){
+            
         }
 
         return obj;
     }
 
-    public void RegisterOnObjectChangeCallback(Action<InstalledObject> callback){
+    public void RegisterOnObjectChangeCallback(Action<Furniture> callback){
         this.cbOnChanged += callback;
     }
-    public void UnregisterOnObjectChangeCallback(Action<InstalledObject> callback){
+    public void UnregisterOnObjectChangeCallback(Action<Furniture> callback){
         this.cbOnChanged -= callback;
     }
 }

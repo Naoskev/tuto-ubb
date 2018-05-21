@@ -11,9 +11,9 @@ public class World {
 
     public int Heigth { get; private set; }
 
-	private Dictionary<string, InstalledObject> installedObjectPrototypes;
+	private Dictionary<string, Furniture> installedObjectPrototypes;
 
-	private Action<InstalledObject> cbOnInstalledObjectPlaced;
+	private Action<Furniture> cbOnInstalledObjectPlaced;
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
@@ -33,10 +33,10 @@ public class World {
 	}
 
 	void initializeInstalledObjectPrototypes(){
-		this.installedObjectPrototypes = new Dictionary<string, InstalledObject>();
+		this.installedObjectPrototypes = new Dictionary<string, Furniture>();
 
 
-		this.installedObjectPrototypes.Add("Wall", InstalledObject.CreatePrototype("Wall", 1f, 1,1, true));
+		this.installedObjectPrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 1f, 1,1, true));
 	}
 
 
@@ -73,7 +73,7 @@ public class World {
 			return;
 		}
 
-		InstalledObject obj = InstalledObject.PlaceInstance(this.installedObjectPrototypes[objectType], tile);
+		Furniture obj = Furniture.PlaceInstance(this.installedObjectPrototypes[objectType], tile);
 
 		if(obj == null){
 			return;
@@ -84,11 +84,11 @@ public class World {
 		}
 	}
 
-	public void RegisterOnInstalledObjectPlaced(Action<InstalledObject> callback){
+	public void RegisterOnInstalledObjectPlaced(Action<Furniture> callback){
 		this.cbOnInstalledObjectPlaced += callback;
 	}
 	
-	public void UnregisterOnInstalledObjectPlaced(Action<InstalledObject> callback){
+	public void UnregisterOnInstalledObjectPlaced(Action<Furniture> callback){
 		this.cbOnInstalledObjectPlaced -= callback;
 	}
 	

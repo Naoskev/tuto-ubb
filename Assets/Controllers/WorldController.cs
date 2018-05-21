@@ -5,9 +5,9 @@ using UnityEngine;
 public class WorldController : MonoBehaviour {
 
 	private Dictionary<Tile, GameObject> tileGameObjects = new Dictionary<Tile, GameObject>();
-	private Dictionary<InstalledObject, GameObject> installedObjectGameObjects = new Dictionary<InstalledObject, GameObject>();
+	private Dictionary<Furniture, GameObject> furnitureGameObjects = new Dictionary<Furniture, GameObject>();
 
-	private Dictionary<string, Sprite> installedObjectSprites = new Dictionary<string, Sprite>();
+	private Dictionary<string, Sprite> furnitureSprites = new Dictionary<string, Sprite>();
 
 	public Sprite floorSprite;
 
@@ -16,17 +16,17 @@ public class WorldController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/InstalledObjects");
+		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Furnitures");
 		foreach (Sprite sprite in sprites)
 		{
-			this.installedObjectSprites.Add(sprite.name, sprite);
+			this.furnitureSprites.Add(sprite.name, sprite);
 		}
 
 		if(Instance != null)
 			Debug.LogError("There should be only one world controller.");
 		WorldController.Instance = this;
 		this.World = new World();
-		this.World.RegisterOnInstalledObjectPlaced(this.OnInstalledObjectPlaced);
+		this.World.RegisterOnInstalledObjectPlaced(this.OnFurniturePlaced);
 
 		for (int x = 0; x < World.Width; x++)
 		{
@@ -89,33 +89,39 @@ public class WorldController : MonoBehaviour {
 		return WorldController.Instance.World.getTileAt(x, y);
 	}
 
-	public void OnInstalledObjectPlaced(InstalledObject installedObject){		
-		GameObject installedObject_go = new GameObject( installedObject.Id +"_at_"+installedObject.MasterTile.X+"_"+installedObject.MasterTile.Y);
-		this.installedObjectGameObjects.Add(installedObject, installedObject_go);
+	public void OnFurniturePlaced(Furniture furniture){		
+		GameObject furn_go = new GameObject( furniture.Id +"_at_"+furniture.MasterTile.X+"_"+furniture.MasterTile.Y);
+		this.furnitureGameObjects.Add(furniture, furn_go);
 
-		installedObject_go.transform.position = new Vector3Int(installedObject.MasterTile.X,installedObject.MasterTile.Y, 0);
-		installedObject_go.transform.SetParent(this.transform, true);
+		furn_go.transform.position = new Vector3Int(furniture.MasterTile.X,furniture.MasterTile.Y, 0);
+		furn_go.transform.SetParent(this.transform, true);
 
-		installedObject_go.AddComponent<SpriteRenderer>().sprite = this.getInstalledObjectSprite(installedObject);
-		installedObject.RegisterOnObjectChangeCallback(OnInstalledObjectChange);
+		furn_go.AddComponent<SpriteRenderer>().sprite = this.getFurnitureSprite(furniture);
+		furniture.RegisterOnObjectChangeCallback(OnFurnitureChange);
 	}
 
-	private Sprite getInstalledObjectSprite(InstalledObject installedObject){
-		string spriteName = installedObject.Id;
-		Debug.Log("place obj : "+spriteName);
-		if(installedObject.IsConnected){
-			spriteName += SpriteGetter.GetInstalledObjectSpriteName(installedObject.MasterTile.X, installedObject.MasterTile.Y, installedObject.Id);
+	private Sprite getFurnitureSprite(Furniture furniture){
+		string spriteName = furniture.Id;
+		if(furniture.IsConnected){
+			spriteName += FurnitureUtility.GetFurnitureSpriteName(furniture.MasterTile.X, furniture.MasterTile.Y, furniture.Id);
 		}
-		if(this.installedObjectSprites.ContainsKey(spriteName) == false){
+		if(this.furnitureSprites.ContainsKey(spriteName) == false){
 			Debug.LogError("Aucune sprite pour "+spriteName);
 			return null;
 		}
 		
-		Debug.Log("final name : "+spriteName);
-		return this.installedObjectSprites[spriteName];
+		return this.furnitureSprites[spriteName];
 	}
 
-	public void OnInstalledObjectChange(InstalledObject obj){
+	public void OnFurnitureChange(Furniture furniture){
+
+		if(this.furnitureGameObjects.ContainsKey(furniture) == false){
+			Debug.LogError("Aucun gameObject pour "+furniture.Id);
+			return;
+		}
+
+		GameObject io_go = this.furnitureGameObjects[furniture];
+		io_go.GetComponent<SpriteRenderer>().sprite = this.getFurnitureSprite(furniture);
 
 	}
 }

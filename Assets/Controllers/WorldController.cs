@@ -43,7 +43,17 @@ public class WorldController : MonoBehaviour {
 				tile_data.registerTileTypeChangedCallback(OnTileTypeChanged);
 			}
 		}
-		World.randomizeTilesType();
+		// World.randomizeTilesType();
+		int worldMiddleX = World.Width / 2, worldMiddleY = World.Heigth / 2, spawnArea = 5;
+		for (int x = worldMiddleX - spawnArea; x < worldMiddleX + spawnArea; x++)
+		{
+			for (int y = worldMiddleY - spawnArea; y < worldMiddleY + spawnArea; y++)
+			{
+				World.getTileAt(x, y).Type = TileType.Floor;
+			}
+		}
+
+		Camera.main.transform.position = new Vector3(worldMiddleX, worldMiddleY, Camera.main.transform.position.z);
 
 		Debug.Log("World created");	
 	}
@@ -51,11 +61,11 @@ public class WorldController : MonoBehaviour {
 	float localTimer = 2f;
 	// Update is called once per frame
 	void Update () {
-		localTimer -= Time.deltaTime;
-		if(localTimer < 0){
-			//this.world.randomizeTilesType();
-			localTimer = 2f;
-		}
+		// localTimer -= Time.deltaTime;
+		// if(localTimer < 0){
+		// 	//this.world.randomizeTilesType();
+		// 	localTimer = 2f;
+		// }
 		
 	}
 

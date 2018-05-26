@@ -56,17 +56,17 @@ public class World {
 
 	public static System.Random random = new System.Random();
 
-	public void randomizeTilesType(){
-		foreach (var tile in this.tiles)
-		{
-			if(random.Next(0,2) == 0){
-				tile.Type = TileType.Empty;
-			}
-			else{
-				tile.Type = TileType.Floor;
-			}
-		}
-	}
+	// public void randomizeTilesType(){
+	// 	foreach (var tile in this.tiles)
+	// 	{
+	// 		if(random.Next(0,2) == 0){
+	// 			tile.Type = TileType.Empty;
+	// 		}
+	// 		else{
+	// 			tile.Type = TileType.Floor;
+	// 		}
+	// 	}
+	// }
 
 	public void PlaceInstalledObject(string objectType, Tile tile){
 		if(this.installedObjectPrototypes.ContainsKey(objectType) == false){

@@ -16,8 +16,9 @@ public class Furniture {
 
     Action<Furniture> cbOnChanged;
 
-    protected Furniture(){
+    public Func<Tile, bool> IsValidPosition;
 
+    protected Furniture(){
     }
 
     public static Furniture CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
@@ -27,6 +28,8 @@ public class Furniture {
         obj.Width = width;
         obj.Height = height;
         obj.IsConnected = isConnected;
+
+        obj.IsValidPosition = obj.isValidPosition_Base;
         return obj;
     }
 
@@ -37,6 +40,7 @@ public class Furniture {
         obj.Width = proto.Width;
         obj.Height = proto.Height;
         obj.IsConnected = proto.IsConnected;
+        obj.IsValidPosition = proto.IsValidPosition;
 
         // TODO : gérer les objets sur plusieurs tuiles
         obj.MasterTile = tile;
@@ -62,5 +66,21 @@ public class Furniture {
     }
     public void UnregisterOnObjectChangeCallback(Action<Furniture> callback){
         this.cbOnChanged -= callback;
+    }
+
+    private bool isValidPosition_Base(Tile tile){
+        if(tile.Type != TileType.Floor) return false;
+
+        if(tile.Furniture != null) return false;
+
+        return true;
+    }
+
+    private bool isValidPosition_Door(Tile tile){
+        if(this.isValidPosition_Base(tile) == false) return false;
+
+        // TODO
+
+        return true;
     }
 }

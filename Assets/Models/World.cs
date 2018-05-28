@@ -14,6 +14,7 @@ public class World {
 	private Dictionary<string, Furniture> installedObjectPrototypes;
 
 	private Action<Furniture> cbOnInstalledObjectPlaced;
+	private Action<Tile> cbOnTileChanged;
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
@@ -26,6 +27,7 @@ public class World {
 			for (int y = 0; y < heigth; y++)
 			{
 				this.tiles[x,y] = new Tile(this, x, y);
+				tiles[x,y].RegisterTileTypeChangedCallback( OnTileChanged );
 			}
 		}
 
@@ -84,12 +86,29 @@ public class World {
 		}
 	}
 
-	public void RegisterOnInstalledObjectPlaced(Action<Furniture> callback){
+	public void RegisterOnFurniturePlaced(Action<Furniture> callback){
 		this.cbOnInstalledObjectPlaced += callback;
 	}
 	
 	public void UnregisterOnInstalledObjectPlaced(Action<Furniture> callback){
 		this.cbOnInstalledObjectPlaced -= callback;
+	}
+	
+
+	public void RegisterOnTileChanged(Action<Tile> callback){
+		this.cbOnTileChanged += callback;
+	}
+	
+	public void UnregisterOnTileChanged(Action<Tile> callback){
+		this.cbOnTileChanged -= callback;
+	}
+	
+
+	void OnTileChanged(Tile t) {
+		if(this.cbOnTileChanged == null)
+			return;
+		
+		this.cbOnTileChanged(t);
 	}
 	
 

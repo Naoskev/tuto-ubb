@@ -45,11 +45,11 @@ public class Tile {
         this.world = world;
     }
 
-    public void registerTileTypeChangedCallback(Action<Tile> callback){
+    public void RegisterTileTypeChangedCallback(Action<Tile> callback){
         this.cbTileTypeChanged += callback;
     }
 
-    public void unregisterTileTypeChangedCallback(Action<Tile> callback){
+    public void UnregisterTileTypeChangedCallback(Action<Tile> callback){
         this.cbTileTypeChanged -= callback;
     }
 

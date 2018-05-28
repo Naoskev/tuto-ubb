@@ -15,7 +15,7 @@ public class WorldController : MonoBehaviour {
 	public World World {get; protected set; }
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Furnitures");
 		foreach (Sprite sprite in sprites)
 		{
@@ -26,7 +26,7 @@ public class WorldController : MonoBehaviour {
 			Debug.LogError("There should be only one world controller.");
 		WorldController.Instance = this;
 		this.World = new World();
-		this.World.RegisterOnInstalledObjectPlaced(this.OnFurniturePlaced);
+		this.World.RegisterOnFurniturePlaced(this.OnFurniturePlaced);
 
 		for (int x = 0; x < World.Width; x++)
 		{
@@ -40,9 +40,9 @@ public class WorldController : MonoBehaviour {
 				tile_go.transform.SetParent(this.transform, true);
 
 				tile_go.AddComponent<SpriteRenderer>();
-				tile_data.registerTileTypeChangedCallback(OnTileTypeChanged);
 			}
 		}
+		this.World.RegisterOnTileChanged(OnTileTypeChanged);
 		// World.randomizeTilesType();
 		int worldMiddleX = World.Width / 2, worldMiddleY = World.Heigth / 2, spawnArea = 5;
 		for (int x = worldMiddleX - spawnArea; x < worldMiddleX + spawnArea; x++)

@@ -34,6 +34,9 @@ public class Furniture {
     }
 
     public static Furniture PlaceInstance(Furniture proto, Tile tile){
+        if(proto.IsValidPosition(tile) == false){
+            return null;
+        }
         Furniture obj = new Furniture();
         obj.Id = proto.Id;
         obj.MovementCost = proto.MovementCost;

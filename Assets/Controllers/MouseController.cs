@@ -20,9 +20,6 @@ public class MouseController : MonoBehaviour {
 	private Vector3? dragMouseStartPosition;
 	private List< GameObject> dragAndDropPreviewObjects;
 
-	private TileType buildMode = TileType.Floor;
-	private bool tileBuildMode = true;
-	private string furnitureId= null;
 
 	// Use this for initialization
 	void Start () {
@@ -40,17 +37,6 @@ public class MouseController : MonoBehaviour {
 
 		lastFrameMousePosition = this.getMousePosition();
 	}
-
-	// private void showCursor(){
-	// 	Tile currentTile = WorldController.Instance.getTileFromVector(currFramePosition);
-	// 	if(currentTile != null){
-	// 		circleCursor.SetActive(true);
-	// 		circleCursor.transform.position = new Vector3Int(currentTile.X, currentTile.Y, 0);
-	// 	}
-	// 	else {
-	// 		circleCursor.SetActive(false);
-	// 	}
-	// }
 
 	private void updateCameraPosition(){		
 		if(Input.GetMouseButton((int)MouseButton.RightClick) || Input.GetMouseButton((int)MouseButton.MiddleClick)){
@@ -106,30 +92,15 @@ public class MouseController : MonoBehaviour {
 			}
 
 			if(Input.GetMouseButtonUp((int)MouseButton.LeftClick)){
+
+				BuildModeController bmc = GameObject.FindObjectOfType<BuildModeController>();
 				for (int x = start_x; x <= end_x; x++)
 				{
 					for (int y = start_y; y <= end_y; y++)
 					{
 						Tile tileToChange = WorldController.Instance.WorldData.getTileAt(x, y);
 						if(tileToChange != null){
-							if(this.tileBuildMode){
-								tileToChange.Type = this.buildMode;
-							}
-							else {
-
-								if(WorldController.Instance.WorldData.IsFurniturePositionValid(this.furnitureId, tileToChange) == false
-									|| tileToChange.pendingFurnitureJob != null){
-									continue;
-								}
-								// version de construction instantannée
-								// WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
-								string localFurnitureId = this.furnitureId;
-								Job job = new Job(tileToChange, (finishedJob) => { WorldController.Instance.WorldData.PlaceInstalledObject(localFurnitureId, finishedJob.Tile); });
-								WorldController.Instance.WorldData.JobQueue.Enqueue(job);
-								tileToChange.pendingFurnitureJob = job;
-
-								Debug.Log("Job in queue : "+WorldController.Instance.WorldData.JobQueue.Count);
-							}
+							bmc.DoBuild(tileToChange);
 						}
 					}
 					
@@ -145,18 +116,4 @@ public class MouseController : MonoBehaviour {
 		vector.z = 0;
 		return vector;
 	}
-
-	public void SetBuildMode_InstalledObject(string id){
-		this.furnitureId = id;
-		this.tileBuildMode = false;
-	}
-	public void SetBuildMode_Floor(){
-		this.tileBuildMode = true;
-		this.buildMode = TileType.Floor;
-	}
-	public void SetBuildMode_Bulldoze(){
-		this.tileBuildMode = true;
-		this.buildMode = TileType.Empty;
-	}
-
 }

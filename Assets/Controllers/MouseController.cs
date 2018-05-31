@@ -22,7 +22,7 @@ public class MouseController : MonoBehaviour {
 
 	private TileType buildMode = TileType.Floor;
 	private bool tileBuildMode = true;
-	private string installedObjectId= null;
+	private string furnitureId= null;
 
 	// Use this for initialization
 	void Start () {
@@ -116,7 +116,19 @@ public class MouseController : MonoBehaviour {
 								tileToChange.Type = this.buildMode;
 							}
 							else {
-								WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
+
+								if(WorldController.Instance.World.IsFurniturePositionValid(this.furnitureId, tileToChange) == false
+									|| tileToChange.pendingFurnitureJob != null){
+									continue;
+								}
+								// version de construction instantannée
+								// WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
+								string localFurnitureId = this.furnitureId;
+								Job job = new Job(tileToChange, (finishedJob) => { WorldController.Instance.World.PlaceInstalledObject(localFurnitureId, finishedJob.Tile); });
+								WorldController.Instance.World.JobQueue.Enqueue(job);
+								tileToChange.pendingFurnitureJob = job;
+
+								Debug.Log("Job in queue : "+WorldController.Instance.World.JobQueue.Count);
 							}
 						}
 					}
@@ -135,7 +147,7 @@ public class MouseController : MonoBehaviour {
 	}
 
 	public void SetBuildMode_InstalledObject(string id){
-		this.installedObjectId = id;
+		this.furnitureId = id;
 		this.tileBuildMode = false;
 	}
 	public void SetBuildMode_Floor(){

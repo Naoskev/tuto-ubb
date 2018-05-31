@@ -37,6 +37,8 @@ public class Tile {
     LooseObject looseObject;
     public Furniture Furniture {get; protected set;}
 
+    public Job pendingFurnitureJob;
+
 
 
     public Tile(World world, int x, int y){

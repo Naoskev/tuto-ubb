@@ -16,7 +16,11 @@ public class Furniture {
 
     Action<Furniture> cbOnChanged;
 
-    public Func<Tile, bool> IsValidPosition;
+    Func<Tile, bool> _isValidPosition;
+
+    public bool IsValidPosition(Tile t){
+        return this._isValidPosition(t);
+    }
 
     protected Furniture(){
     }
@@ -29,12 +33,12 @@ public class Furniture {
         obj.Height = height;
         obj.IsConnected = isConnected;
 
-        obj.IsValidPosition = obj.isValidPosition_Base;
+        obj._isValidPosition = obj.isValidPosition_Base;
         return obj;
     }
 
     public static Furniture PlaceInstance(Furniture proto, Tile tile){
-        if(proto.IsValidPosition(tile) == false){
+        if(proto._isValidPosition(tile) == false){
             return null;
         }
         Furniture obj = new Furniture();
@@ -43,7 +47,7 @@ public class Furniture {
         obj.Width = proto.Width;
         obj.Height = proto.Height;
         obj.IsConnected = proto.IsConnected;
-        obj.IsValidPosition = proto.IsValidPosition;
+        obj._isValidPosition = proto._isValidPosition;
 
         // TODO : gérer les objets sur plusieurs tuiles
         obj.MasterTile = tile;

@@ -11,14 +11,17 @@ public class World {
 
     public int Heigth { get; private set; }
 
-	private Dictionary<string, Furniture> installedObjectPrototypes;
+	private Dictionary<string, Furniture> furniturePrototypes;
 
 	private Action<Furniture> cbOnInstalledObjectPlaced;
 	private Action<Tile> cbOnTileChanged;
 
+	public Queue<Job> JobQueue {get; protected set; }
+
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
 		this.Heigth = heigth;
+		this.JobQueue = new Queue<Job>();
 
 		this.tiles = new Tile[width, heigth];
 
@@ -35,10 +38,10 @@ public class World {
 	}
 
 	void initializeInstalledObjectPrototypes(){
-		this.installedObjectPrototypes = new Dictionary<string, Furniture>();
+		this.furniturePrototypes = new Dictionary<string, Furniture>();
 
 
-		this.installedObjectPrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 1f, 1,1, true));
+		this.furniturePrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 1f, 1,1, true));
 	}
 
 
@@ -71,11 +74,11 @@ public class World {
 	// }
 
 	public void PlaceInstalledObject(string objectType, Tile tile){
-		if(this.installedObjectPrototypes.ContainsKey(objectType) == false){
+		if(this.furniturePrototypes.ContainsKey(objectType) == false){
 			return;
 		}
 
-		Furniture obj = Furniture.PlaceInstance(this.installedObjectPrototypes[objectType], tile);
+		Furniture obj = Furniture.PlaceInstance(this.furniturePrototypes[objectType], tile);
 
 		if(obj == null){
 			return;
@@ -112,5 +115,8 @@ public class World {
 	}
 	
 
+	public bool IsFurniturePositionValid(string furnitureId, Tile t){
+		return this.furniturePrototypes[furnitureId].IsValidPosition(t);
+	}
 
 }

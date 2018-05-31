@@ -4,7 +4,7 @@ using System;
 
 public class Job {
 
-	Tile tile;
+	public Tile Tile{get; private set;}
 
 	Action<Job> cbJobComplete;
 
@@ -14,7 +14,7 @@ public class Job {
 
 
 	public Job(Tile tile, Action<Job> completeCallback,  float jobDuration = 1f){
-		this.tile = tile;
+		this.Tile = tile;
 		this.cbJobComplete = completeCallback;
 		this.jobTime = jobDuration;
 	}

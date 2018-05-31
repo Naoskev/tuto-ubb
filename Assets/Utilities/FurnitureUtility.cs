@@ -65,7 +65,7 @@ public static class FurnitureUtility {
 	}
 
 	private static Tile getNeighbourTile(Furniture furn, Vector2Int vector){
-		return  WorldController.Instance.World.getTileAt(furn.MasterTile.X + vector.x, furn.MasterTile.Y + vector.y);
+		return  WorldController.Instance.WorldData.getTileAt(furn.MasterTile.X + vector.x, furn.MasterTile.Y + vector.y);
 	}
 	
 }

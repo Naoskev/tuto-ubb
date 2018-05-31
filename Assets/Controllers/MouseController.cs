@@ -95,7 +95,7 @@ public class MouseController : MonoBehaviour {
 				{
 					for (int y = start_y; y <= end_y; y++)
 					{
-						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
+						Tile tileToChange = WorldController.Instance.WorldData.getTileAt(x, y);
 						if(tileToChange != null){
 							GameObject circleGO = SimplePool.Spawn(circleCursorPrefab, new Vector3(x,y,0), Quaternion.identity);
 							circleGO.transform.SetParent(this.transform, true);
@@ -110,25 +110,25 @@ public class MouseController : MonoBehaviour {
 				{
 					for (int y = start_y; y <= end_y; y++)
 					{
-						Tile tileToChange = WorldController.Instance.World.getTileAt(x, y);
+						Tile tileToChange = WorldController.Instance.WorldData.getTileAt(x, y);
 						if(tileToChange != null){
 							if(this.tileBuildMode){
 								tileToChange.Type = this.buildMode;
 							}
 							else {
 
-								if(WorldController.Instance.World.IsFurniturePositionValid(this.furnitureId, tileToChange) == false
+								if(WorldController.Instance.WorldData.IsFurniturePositionValid(this.furnitureId, tileToChange) == false
 									|| tileToChange.pendingFurnitureJob != null){
 									continue;
 								}
 								// version de construction instantannée
 								// WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
 								string localFurnitureId = this.furnitureId;
-								Job job = new Job(tileToChange, (finishedJob) => { WorldController.Instance.World.PlaceInstalledObject(localFurnitureId, finishedJob.Tile); });
-								WorldController.Instance.World.JobQueue.Enqueue(job);
+								Job job = new Job(tileToChange, (finishedJob) => { WorldController.Instance.WorldData.PlaceInstalledObject(localFurnitureId, finishedJob.Tile); });
+								WorldController.Instance.WorldData.JobQueue.Enqueue(job);
 								tileToChange.pendingFurnitureJob = job;
 
-								Debug.Log("Job in queue : "+WorldController.Instance.World.JobQueue.Count);
+								Debug.Log("Job in queue : "+WorldController.Instance.WorldData.JobQueue.Count);
 							}
 						}
 					}

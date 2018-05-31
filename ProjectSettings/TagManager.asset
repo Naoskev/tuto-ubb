@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Floor
+  - Objects
   - 
   - 
   - 
@@ -40,6 +40,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 57859853
+    locked: 0
+  - name: Objects
+    uniqueID: 1434532657
     locked: 0
   - name: TileUI
     uniqueID: 1744387311

@@ -12,11 +12,14 @@ public class Job {
 
 	float jobTime;
 
+	public string JobObjectType {get; protected set;}
 
-	public Job(Tile tile, Action<Job> completeCallback,  float jobDuration = 1f){
+
+	public Job(Tile tile, string objectType, Action<Job> completeCallback,  float jobDuration = 1f){
 		this.Tile = tile;
 		this.cbJobComplete = completeCallback;
 		this.jobTime = jobDuration;
+		this.JobObjectType = objectType;
 	}
 
 	public void RegisterCompleteCallback(Action<Job> callback){

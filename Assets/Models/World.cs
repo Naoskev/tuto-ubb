@@ -16,12 +16,12 @@ public class World {
 	private Action<Furniture> cbOnInstalledObjectPlaced;
 	private Action<Tile> cbOnTileChanged;
 
-	public Queue<Job> JobQueue {get; protected set; }
+	public JobQueue JobQueue {get; protected set; }
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
 		this.Heigth = heigth;
-		this.JobQueue = new Queue<Job>();
+		this.JobQueue = new JobQueue();
 
 		this.tiles = new Tile[width, heigth];
 

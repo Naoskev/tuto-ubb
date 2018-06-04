@@ -37,7 +37,6 @@ public class BuildModeController : MonoBehaviour {
 			job.RegisterCancelledCallback( (theJob) => { theJob.Tile.pendingFurnitureJob = null; } );
 
 			WorldController.Instance.WorldData.JobQueue.Enqueue(job);
-			Debug.Log("Job in queue : "+WorldController.Instance.WorldData.JobQueue.Count);
 		}		
 	}
 

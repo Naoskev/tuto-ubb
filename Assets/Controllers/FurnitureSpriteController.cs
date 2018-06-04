@@ -28,7 +28,10 @@ public class FurnitureSpriteController : MonoBehaviour {
 		furn_go.transform.position = new Vector3Int(furniture.MasterTile.X,furniture.MasterTile.Y, 0);
 		furn_go.transform.SetParent(this.transform, true);
 
-		furn_go.AddComponent<SpriteRenderer>().sprite = this.getFurnitureSprite(furniture);
+		SpriteRenderer sr = furn_go.AddComponent<SpriteRenderer>();
+		sr.sprite = this.getFurnitureSprite(furniture);		
+		sr.sortingLayerName = LayerName.FURNITURE.GetDescription();
+		
 		furniture.RegisterOnObjectChangeCallback(OnFurnitureChange);
 	}
 

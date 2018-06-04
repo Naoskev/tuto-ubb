@@ -26,7 +26,8 @@ public class TileSpriteController : MonoBehaviour {
 				tile_go.transform.position = new Vector3Int(tile_data.X, tile_data.Y, 0);
 				tile_go.transform.SetParent(this.transform, true);
 
-				tile_go.AddComponent<SpriteRenderer>();
+				SpriteRenderer sr = tile_go.AddComponent<SpriteRenderer>();
+				sr.sortingLayerName = LayerName.TILE.GetDescription();
 			}
 		}
 		
@@ -44,12 +45,13 @@ public class TileSpriteController : MonoBehaviour {
 			return;
 		}
 
+		SpriteRenderer sr = tile_go.GetComponent<SpriteRenderer>();
 		if(tile_data.Type == TileType.Floor){
-			tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
+			sr.sprite = floorSprite;
 		}
 		else if(tile_data.Type == TileType.Empty)
 		{
-			tile_go.GetComponent<SpriteRenderer>().sprite = null;			
+			sr.sprite = null;			
 		}
 		else {
 			Debug.Log("Unknown tile type : "+tile_data.Type+" for tile ["+tile_data.X+";"+tile_data.Y+"]");

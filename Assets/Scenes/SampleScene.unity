@@ -194,7 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 243343776}
   - component: {fileID: 243343777}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: FunitureSpriteController
   m_TagString: GameController
   m_Icon: {fileID: 0}
@@ -867,7 +867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1281584577}
   - component: {fileID: 1281584578}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: JobSpriteController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1197,7 +1197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2099936256}
   - component: {fileID: 2099936257}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: TileSpriteController
   m_TagString: GameController
   m_Icon: {fileID: 0}

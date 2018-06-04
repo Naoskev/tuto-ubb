@@ -29,6 +29,7 @@ public class JobSpriteController : MonoBehaviour {
 		Furniture prototype = WorldController.Instance.WorldData.getFurniturePrototype(job.JobObjectType);
 		sr.sprite = fsc.getFurnitureSprite(prototype.Id, job.Tile, prototype.IsConnected);
 		sr.color = new Color(1f, 1f, 1f, 0.25f);
+		sr.sortingLayerName = LayerName.JOB.GetDescription();
 	}
 
 	void OnJobEnded(Job job){

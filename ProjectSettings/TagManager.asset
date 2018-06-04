@@ -41,15 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Floor
+  - name: Tile
     uniqueID: 57859853
     locked: 0
-  - name: Objects
+  - name: Furniture
     uniqueID: 1434532657
     locked: 0
-  - name: Jobs
+  - name: Job
     uniqueID: 4225761435
     locked: 0
-  - name: TileUI
+  - name: Character
+    uniqueID: 702793313
+    locked: 0
+  - name: UI
     uniqueID: 1744387311
     locked: 0

@@ -15,7 +15,7 @@ TagManager:
   - 
   - Floor
   - Objects
-  - 
+  - Jobs
   - 
   - 
   - 
@@ -46,6 +46,9 @@ TagManager:
     locked: 0
   - name: Objects
     uniqueID: 1434532657
+    locked: 0
+  - name: Jobs
+    uniqueID: 4225761435
     locked: 0
   - name: TileUI
     uniqueID: 1744387311

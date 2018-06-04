@@ -27,9 +27,8 @@ public class BuildModeController : MonoBehaviour {
 			}
 			// version de construction instantannée
 			// WorldController.Instance.World.PlaceInstalledObject(this.installedObjectId, tileToChange);
-			string localFurnitureId = this.furnitureId;
-			Job job = new Job(tile, (finishedJob) => { 
-				WorldController.Instance.WorldData.PlaceInstalledObject(localFurnitureId, finishedJob.Tile); 
+			Job job = new Job(tile, this.furnitureId, (finishedJob) => { 
+				WorldController.Instance.WorldData.PlaceInstalledObject(finishedJob.JobObjectType, finishedJob.Tile); 
 				finishedJob.Tile.pendingFurnitureJob = null;
 			});
 			

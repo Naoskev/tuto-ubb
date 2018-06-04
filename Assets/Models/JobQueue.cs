@@ -16,7 +16,7 @@ public class JobQueue {
 	public void Enqueue(Job job){
 		this.jobQueue.Enqueue(job);
 
-		if(this.cbOnJobCreated){
+		if(this.cbOnJobCreated != null){
 			this.cbOnJobCreated(job);
 		}
 	}

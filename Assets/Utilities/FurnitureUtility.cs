@@ -29,13 +29,13 @@ public static class FurnitureUtility {
 		// {7, new KeyValuePair<Vector2Int, string>(new Vector2Int(-1, 1), "NW")},
 	};
 
-	private static KeyValuePair<Vector2Int, Furniture>[] GetNeighboords(Furniture furn, Vector2Int[] directionToGet){
+	private static KeyValuePair<Vector2Int, Furniture>[] GetNeighboords(string furnitureId, Tile originTile, Vector2Int[] directionToGet){
 		Queue<KeyValuePair<Vector2Int, Furniture>> queue = new Queue<KeyValuePair<Vector2Int, Furniture>>();
 
 		foreach (Vector2Int direction in directionToGet)
 		{
-			Tile tile = getNeighbourTile(furn, direction);
-			if(tile != null && tile.Furniture!= null && tile.Furniture.Id == furn.Id){
+			Tile tile = WorldController.Instance.WorldData.getNeighbourTile(originTile, direction.x, direction.y);
+			if(tile != null && tile.Furniture!= null && tile.Furniture.Id == furnitureId){
 				queue.Enqueue(new KeyValuePair<Vector2Int, Furniture>(direction, tile.Furniture));
 			}
 		}
@@ -43,14 +43,14 @@ public static class FurnitureUtility {
 		return queue.ToArray();
 	}
 
-	public static KeyValuePair<Vector2Int, Furniture>[] GetCardinalNeighboords(Furniture furn){
-		return GetNeighboords(furn, cardinalNeighbours);
+	public static KeyValuePair<Vector2Int, Furniture>[] GetCardinalNeighboords(string furnitureId, Tile tile){
+		return GetNeighboords(furnitureId, tile, cardinalNeighbours);
 	}
 
-	public static string GetFurnitureSpriteName(Furniture furn){
+	public static string GetFurnitureSpriteName(string furnitureId, Tile tile){
 		string spriteName = "_";
 		Queue<string> queue = new Queue<string>();
-		foreach (var neighbour in GetCardinalNeighboords(furn))
+		foreach (var neighbour in GetCardinalNeighboords(furnitureId, tile))
 		{
 			queue.Enqueue(angles[neighbour.Key]);
 		}
@@ -62,10 +62,5 @@ public static class FurnitureUtility {
 		}
 
 		return spriteName;
-	}
-
-	private static Tile getNeighbourTile(Furniture furn, Vector2Int vector){
-		return  WorldController.Instance.WorldData.getTileAt(furn.MasterTile.X + vector.x, furn.MasterTile.Y + vector.y);
-	}
-	
+	}	
 }

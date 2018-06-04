@@ -26,14 +26,13 @@ public class JobSpriteController : MonoBehaviour {
 		job_go.transform.SetParent(this.transform, true);
 
 		SpriteRenderer sr = job_go.AddComponent<SpriteRenderer>();
-		sr.sprite = this.getFurnitureSprite(furniture);
+		Furniture prototype = WorldController.Instance.WorldData.getFurniturePrototype(job.JobObjectType);
+		sr.sprite = fsc.getFurnitureSprite(prototype.Id, job.Tile, prototype.IsConnected);
 		sr.color = new Color(1f, 1f, 1f, 0.25f);
 	}
 
 	void OnJobEnded(Job job){
-
-		this.jobGameObjects[job].GetComponent<SpriteRenderer>().sprite = null;
-		
+		this.jobGameObjects[job].GetComponent<SpriteRenderer>().sprite = null;	
 
 	}
 

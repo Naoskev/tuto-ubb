@@ -117,6 +117,18 @@ public class World {
 
 	public bool IsFurniturePositionValid(string furnitureId, Tile t){
 		return this.furniturePrototypes[furnitureId].IsValidPosition(t);
+	}	
+	
+	public Tile getNeighbourTile(Tile originTile, int vectorX, int vectorY){
+		return  WorldController.Instance.WorldData.getTileAt(originTile.X + vectorX, originTile.Y + vectorY);
 	}
 
+	public Furniture getFurniturePrototype(string id){
+		if(this.furniturePrototypes.ContainsKey(id)){
+			return this.furniturePrototypes[id];
+		}
+
+		// TODO : log
+		return null;
+	}
 }

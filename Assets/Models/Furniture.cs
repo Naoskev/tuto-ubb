@@ -59,7 +59,7 @@ public class Furniture {
         // SI on a une connection avec les voisins du même type
         // On les notifie pour qu'ils se mettent à jour
         if(obj.IsConnected){
-            foreach (var neighbour in FurnitureUtility.GetCardinalNeighboords(obj))
+            foreach (var neighbour in FurnitureUtility.GetCardinalNeighboords(obj.Id, obj.MasterTile))
             {
                 neighbour.Value.cbOnChanged(neighbour.Value);
             }

@@ -33,9 +33,14 @@ public class FurnitureSpriteController : MonoBehaviour {
 	}
 
 	private Sprite getFurnitureSprite(Furniture furniture){
-		string spriteName = furniture.Id;
-		if(furniture.IsConnected){
-			spriteName += FurnitureUtility.GetFurnitureSpriteName(furniture);
+		return this.getFurnitureSprite(furniture.Id, furniture.MasterTile, furniture.IsConnected);
+	}
+
+	
+	public Sprite getFurnitureSprite(string furnitureId, Tile tile, bool isConnected){
+		string spriteName = furnitureId;
+		if(isConnected){
+			spriteName += FurnitureUtility.GetFurnitureSpriteName(furnitureId, tile);
 		}
 		if(this.furnitureSprites.ContainsKey(spriteName) == false){
 			Debug.LogError("Aucune sprite pour "+spriteName);

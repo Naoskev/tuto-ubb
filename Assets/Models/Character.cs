@@ -53,8 +53,7 @@ public class Character {
 	}
 
 	public void SetDestination(Tile tile){
-		if(false){
-			// TODO
+		if(this.CurrentTile.IsNeighbourWith(tile, true) == false){			
 			Logger.LogError("Un personnage doit avoir comme destination une case adjacente");
 		}
 

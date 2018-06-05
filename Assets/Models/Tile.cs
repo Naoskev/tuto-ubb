@@ -69,4 +69,13 @@ public class Tile {
         this.Furniture = furniture;
         return true;
     }
+
+    public bool IsNeighbourWith(Tile otherTile, bool onlyCardinal){
+        int XDistance = Math.Abs(this.X - otherTile.X), YDistance = Math.Abs(this.Y - otherTile.Y);
+
+        if(onlyCardinal){
+            return (XDistance == 1 && YDistance == 0) || (XDistance == 0 && YDistance == 1);  
+        }
+        return XDistance <= 0 && YDistance <= 1;
+    }
 }

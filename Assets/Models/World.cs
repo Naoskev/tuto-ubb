@@ -76,19 +76,21 @@ public class World {
 	// 	}
 	// }
 
-	public void PlaceInstalledObject(string objectType, Tile tile){
-		if(this.furniturePrototypes.ContainsKey(objectType) == false){
+	public void PlaceFurniture(string furnitureId, Tile tile){
+		if(this.furniturePrototypes.ContainsKey(furnitureId) == false){
+			Logger.LogError("Aucun prototype pour le meuble d'id : "+furnitureId);
 			return;
 		}
 
-		Furniture obj = Furniture.PlaceInstance(this.furniturePrototypes[objectType], tile);
+		Furniture furniture = Furniture.PlaceInstance(this.furniturePrototypes[furnitureId], tile);
 
-		if(obj == null){
+		if(furniture == null){
+			Logger.LogError("Cannot place furniture on tile "+tile);
 			return;
 		}
 
 		if(this.cbOnFurniturePlaced != null){
-			cbOnFurniturePlaced(obj);
+			cbOnFurniturePlaced(furniture);
 		}
 	}
 
@@ -148,7 +150,7 @@ public class World {
 			return this.furniturePrototypes[id];
 		}
 
-		// TODO : log
+		Logger.LogError("Aucun prototype pour le meuble d'id : "+id);
 		return null;
 	}
 }

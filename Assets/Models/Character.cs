@@ -55,6 +55,7 @@ public class Character {
 	public void SetDestination(Tile tile){
 		if(false){
 			// TODO
+			Logger.LogError("Un personnage doit avoir comme destination une case adjacente");
 		}
 
 		this.destinationTile = tile;

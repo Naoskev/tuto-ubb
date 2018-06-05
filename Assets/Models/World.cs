@@ -6,6 +6,8 @@ using System;
 public class World {
 
  	Tile[,] tiles;
+	List<Character> characters = new List<Character>();
+
 
     public int Width { get; private set; }
 
@@ -13,7 +15,8 @@ public class World {
 
 	private Dictionary<string, Furniture> furniturePrototypes;
 
-	private Action<Furniture> cbOnInstalledObjectPlaced;
+	private Action<Furniture> cbOnFurniturePlaced;
+	private Action<Character> cbOnCharacterCreated;
 	private Action<Tile> cbOnTileChanged;
 
 	public JobQueue JobQueue {get; protected set; }
@@ -84,17 +87,34 @@ public class World {
 			return;
 		}
 
-		if(this.cbOnInstalledObjectPlaced != null){
-			cbOnInstalledObjectPlaced(obj);
+		if(this.cbOnFurniturePlaced != null){
+			cbOnFurniturePlaced(obj);
+		}
+	}
+
+	public void CreateCharacter(Tile t){
+		Character character = new Character(t);
+		this.characters.Add(character);
+
+		if(this.cbOnCharacterCreated != null){
+			this.cbOnCharacterCreated(character);
 		}
 	}
 
 	public void RegisterOnFurniturePlaced(Action<Furniture> callback){
-		this.cbOnInstalledObjectPlaced += callback;
+		this.cbOnFurniturePlaced += callback;
 	}
 	
-	public void UnregisterOnInstalledObjectPlaced(Action<Furniture> callback){
-		this.cbOnInstalledObjectPlaced -= callback;
+	public void UnregisterOnFurniturePlaced(Action<Furniture> callback){
+		this.cbOnFurniturePlaced -= callback;
+	}
+
+	public void RegisterOnCharacterCreated(Action<Character> callback){
+		this.cbOnCharacterCreated += callback;
+	}
+	
+	public void UnregisterOnCharacterCreated(Action<Character> callback){
+		this.cbOnCharacterCreated -= callback;
 	}
 	
 

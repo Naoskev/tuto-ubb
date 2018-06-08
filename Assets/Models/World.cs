@@ -40,6 +40,13 @@ public class World {
 		this.initializeInstalledObjectPrototypes();
 	}
 
+	public void Update(float time){
+		foreach (Character character in this.characters)
+		{
+			character.Update(time);
+		}
+	}
+
 	void initializeInstalledObjectPrototypes(){
 		this.furniturePrototypes = new Dictionary<string, Furniture>();
 

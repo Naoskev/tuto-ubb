@@ -27,12 +27,32 @@ public class CharacterSpriteController : MonoBehaviour {
 		GameObject character_go = new GameObject("Character_at_"+character.CurrentTile.X+"_"+character.CurrentTile.Y);
 		this.characterGameObjects.Add(character, character_go);
 
-		character_go.transform.position = new Vector3Int(character.CurrentTile.X,character.CurrentTile.Y, 0);
+		character_go.transform.position = this.getCharacterPosition(character);
 		character_go.transform.SetParent(this.transform, true);
 
 		SpriteRenderer sr = character_go.AddComponent<SpriteRenderer>();
 		sr.sprite = this.getSprite("p1_front");		
 		sr.sortingLayerName = LayerName.CHARACTER.GetDescription();
+
+		character.RegisterOnChangeCallback(this.OnCharacterChanged);
+	}
+
+	public void OnCharacterChanged(Character character){
+		if(this.characterGameObjects.ContainsKey(character) == false){
+			Debug.LogError("Character "+character+" n'a pas été ajouté à la collection d'objet Unity");
+			return;
+		}
+		GameObject character_go = this.characterGameObjects[character];
+		if(character_go == null){
+			Debug.LogError("L'objet unity du character "+character+" est null");
+			return;
+		}
+
+		character_go.transform.position = this.getCharacterPosition(character);
+	}
+
+	private Vector3 getCharacterPosition(Character character){
+		return new Vector3(character.X, character.Y, 0);
 	}
 	
 	public Sprite getSprite(string spriteName){

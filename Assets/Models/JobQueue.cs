@@ -21,6 +21,12 @@ public class JobQueue {
 		}
 	}
 
+	public Job Dequeue(){
+		if(this.jobQueue.Count == 0) return null;
+		
+		return this.jobQueue.Dequeue();
+	}
+
 	public void RegisterOnJobCreated(Action<Job> callback){
 		this.cbOnJobCreated += callback;
 	}

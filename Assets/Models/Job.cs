@@ -25,8 +25,14 @@ public class Job {
 	public void RegisterCompleteCallback(Action<Job> callback){
 		this.cbJobComplete += callback;
 	}
+	public void UnregisterCompleteCallback(Action<Job> callback){
+		this.cbJobComplete -= callback;
+	}
 	public void RegisterCancelledCallback(Action<Job> callback){
 		this.cbJobCancelled += callback;
+	}
+	public void UnregisterCancelledCallback(Action<Job> callback){
+		this.cbJobCancelled -= callback;
 	}
 
 	public void DoWork(float workTime){

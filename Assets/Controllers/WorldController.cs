@@ -26,6 +26,10 @@ public class WorldController : MonoBehaviour {
 
 		Debug.Log("World created");	
 	}
+
+	void Update(){
+		this.WorldData.Update(Time.deltaTime);
+	}
 	
 	public Tile getTileFromVector(Vector3 coord){
 		int x = Mathf.FloorToInt(coord.x);

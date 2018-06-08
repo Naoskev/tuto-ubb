@@ -7,6 +7,7 @@ public class TileSpriteController : MonoBehaviour {
 	private Dictionary<Tile, GameObject> tileGameObjects = new Dictionary<Tile, GameObject>();
 
 	public Sprite floorSprite;
+	public Sprite emptySprite;
 
 	private World _world {get{
 		return WorldController.Instance.WorldData;
@@ -28,6 +29,7 @@ public class TileSpriteController : MonoBehaviour {
 
 				SpriteRenderer sr = tile_go.AddComponent<SpriteRenderer>();
 				sr.sortingLayerName = LayerName.TILE.GetDescription();
+				sr.sprite = this.GetSprite(tile_data);
 			}
 		}
 		
@@ -45,16 +47,18 @@ public class TileSpriteController : MonoBehaviour {
 			return;
 		}
 
-		SpriteRenderer sr = tile_go.GetComponent<SpriteRenderer>();
-		if(tile_data.Type == TileType.Floor){
-			sr.sprite = floorSprite;
+		tile_go.GetComponent<SpriteRenderer>().sprite = this.GetSprite(tile_data);		
+	}
+
+	private Sprite GetSprite(Tile tile){
+		if(tile.Type == TileType.Floor){
+			return floorSprite;
 		}
-		else if(tile_data.Type == TileType.Empty)
+		else if(tile.Type == TileType.Empty)
 		{
-			sr.sprite = null;			
+			return emptySprite;			
 		}
-		else {
-			Debug.Log("Unknown tile type : "+tile_data.Type+" for tile ["+tile_data.X+";"+tile_data.Y+"]");
-		}
+		Debug.Log("Unknown tile type : "+tile.Type+" for tile ["+tile.X+";"+tile.Y+"]");
+		return null;
 	}
 }

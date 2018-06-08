@@ -1270,6 +1270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorSprite: {fileID: 21300000, guid: 2e140bbab966e2840ac101549d1b7a83, type: 3}
+  emptySprite: {fileID: 21300000, guid: c57d6e5aa055cd4468286a5252e5f480, type: 3}
 --- !u!1 &2143839430
 GameObject:
   m_ObjectHideFlags: 0

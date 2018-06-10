@@ -13,7 +13,7 @@ public class WorldController : MonoBehaviour {
 		WorldController.Instance = this;
 		this.WorldData = new World();
 
-		int worldMiddleX = WorldData.Width / 2, worldMiddleY = WorldData.Heigth / 2, spawnArea = 5;
+		int worldMiddleX = WorldData.Width / 2, worldMiddleY = WorldData.Height / 2, spawnArea = 5;
 		// for (int x = worldMiddleX - spawnArea; x < worldMiddleX + spawnArea; x++)
 		// {
 		// 	for (int y = worldMiddleY - spawnArea; y < worldMiddleY + spawnArea; y++)
@@ -25,6 +25,10 @@ public class WorldController : MonoBehaviour {
 		Camera.main.transform.position = new Vector3(worldMiddleX, worldMiddleY, Camera.main.transform.position.z);
 
 		Debug.Log("World created");	
+	}
+
+	void Start(){
+		this.WorldData.SetupPathfindingExample();
 	}
 
 	void Update(){

@@ -20,7 +20,7 @@ public class CharacterSpriteController : MonoBehaviour {
 
 		this._world.RegisterOnCharacterCreated(this.OnCharacterCreated);
 		
-		_world.CreateCharacter(_world.getTileAt(_world.Width/2, _world.Heigth /2));
+		_world.CreateCharacter(_world.getTileAt(_world.Width/2, _world.Height /2));
 	}
 
 	public void OnCharacterCreated(Character character){		

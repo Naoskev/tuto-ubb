@@ -11,7 +11,7 @@ public class World {
 
     public int Width { get; private set; }
 
-    public int Heigth { get; private set; }
+    public int Height { get; private set; }
 
 	private Dictionary<string, Furniture> furniturePrototypes;
 
@@ -23,7 +23,7 @@ public class World {
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
-		this.Heigth = heigth;
+		this.Height = heigth;
 		this.JobQueue = new JobQueue();
 
 		this.tiles = new Tile[width, heigth];
@@ -38,6 +38,8 @@ public class World {
 		}
 
 		this.initializeInstalledObjectPrototypes();
+
+		// this.SetupPathfindingExample();
 	}
 
 	public void Update(float time){
@@ -56,7 +58,7 @@ public class World {
 
 
     public Tile getTileAt(int x, int y){
-		if(x < 0 || x >= this.Width || y < 0 || y>= this.Heigth){
+		if(x < 0 || x >= this.Width || y < 0 || y>= this.Height){
 			System.Console.Error.WriteLine( "Tile ["+x+";"+y+"] does not exist.");
 			return null;			
 		}
@@ -82,6 +84,26 @@ public class World {
 	// 		}
 	// 	}
 	// }
+
+	public void SetupPathfindingExample() {
+		Logger.LogInfo ("SetupPathfindingExample");
+
+		// Make a set of floors/walls to test pathfinding with.
+		int l = Width / 2 - 5;
+		int b = Height / 2 - 5;
+
+		for (int x = l-5; x < l + 15; x++) {
+			for (int y = b-5; y < b + 15; y++) {
+				tiles[x,y].Type = TileType.Floor;
+
+				if(x == l || x == (l + 9) || y == b || y == (b + 9)) {
+					if(x != (l + 9) && y != (b + 4)) {
+						PlaceFurniture("Wall", tiles[x,y]);
+					}
+				}
+			}
+		}
+	}
 
 	public void PlaceFurniture(string furnitureId, Tile tile){
 		if(this.furniturePrototypes.ContainsKey(furnitureId) == false){

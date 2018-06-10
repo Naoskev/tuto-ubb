@@ -18,7 +18,7 @@ public class TileSpriteController : MonoBehaviour {
 
 		for (int x = 0; x < this._world.Width; x++)
 		{
-			for (int y = 0; y < this._world.Heigth; y++)
+			for (int y = 0; y < this._world.Height; y++)
 			{
 				Tile tile_data = this._world.getTileAt(x,y);
 				GameObject tile_go = new GameObject("tile_at_"+x+"_"+y);

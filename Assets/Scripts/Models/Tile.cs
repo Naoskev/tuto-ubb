@@ -39,6 +39,16 @@ public class Tile {
 
     public Job pendingFurnitureJob;
 
+    public float MovementCost {
+        get {
+            if(this.Type == TileType.Empty) return 0;
+
+            if(this.Furniture == null) return 1;
+
+            return 1 * this.Furniture.MovementCost;
+        }
+    }
+
 
 
     public Tile(World world, int x, int y){

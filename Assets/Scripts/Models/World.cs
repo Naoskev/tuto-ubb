@@ -21,6 +21,8 @@ public class World {
 
 	public JobQueue JobQueue {get; protected set; }
 
+	private Path_TileGraph tileGraph;
+
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
 		this.Height = heigth;
@@ -120,6 +122,7 @@ public class World {
 
 		if(this.cbOnFurniturePlaced != null){
 			cbOnFurniturePlaced(furniture);
+			this.invalidTileGraph();
 		}
 	}
 
@@ -163,8 +166,12 @@ public class World {
 			return;
 		
 		this.cbOnTileChanged(t);
+		this.invalidTileGraph();
 	}
 	
+	private void invalidTileGraph(){
+		this.tileGraph = null;
+	}
 
 	public bool IsFurniturePositionValid(string furnitureId, Tile t){
 		return this.furniturePrototypes[furnitureId].IsValidPosition(t);

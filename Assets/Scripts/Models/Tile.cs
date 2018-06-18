@@ -88,4 +88,27 @@ public class Tile {
         }
         return XDistance <= 0 && YDistance <= 1;
     }
+
+    public Tile[] GetNeighbours(bool diagOk){
+        Tile[] result;
+        if(diagOk == true){
+            result = new Tile[8];
+        }
+        else {            
+            result = new Tile[4];
+        }
+
+        result[0] = WorldController.Instance.WorldData.getNeighbourTile(this, 0, 1);
+        result[2] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, 0);
+        result[4] = WorldController.Instance.WorldData.getNeighbourTile(this, 0, -1);
+        result[6] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, 0);
+
+        if(diagOk){            
+            result[1] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, 1);
+            result[3] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, -1);
+            result[5] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, -1);
+            result[7] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, 1);
+        }
+        return result;
+    }
 }

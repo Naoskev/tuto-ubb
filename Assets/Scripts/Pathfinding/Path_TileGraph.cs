@@ -21,7 +21,18 @@ public class Path_TileGraph {
 
 		foreach (Tile tile in nodes.Keys)
 		{
-			
+			Tile[] neighbours = tile.GetNeighbours(true);
+			List<Path_Edge<Tile>> edges = new List<Path_Edge<Tile>>();
+			for (int i = 0; i < 8; i++)
+			{
+				if(neighbours[i] != null && neighbours[i].MovementCost > 0){
+					Path_Edge<Tile> edge = new Path_Edge<Tile>();
+					edge.cost = neighbours[i].MovementCost;
+					edge.node = this.nodes[neighbours[i]];
+					edges.Add(edge);
+				}
+			}
+			this.nodes[tile].edges = edges.ToArray();
 		}
 	}
 

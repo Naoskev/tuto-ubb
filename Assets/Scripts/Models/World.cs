@@ -21,7 +21,14 @@ public class World {
 
 	public JobQueue JobQueue {get; protected set; }
 
-	private Path_TileGraph tileGraph;
+	private Path_TileGraph _tileGraph;
+	public Path_TileGraph TileGraph {  
+		get{
+			if(this._tileGraph == null){
+				this._tileGraph = new Path_TileGraph(this);
+			}
+			return this._tileGraph;
+	} }
 
 	public World(int width = 100, int heigth=100){
 		this.Width = width;
@@ -170,7 +177,7 @@ public class World {
 	}
 	
 	private void invalidTileGraph(){
-		this.tileGraph = null;
+		this._tileGraph = null;
 	}
 
 	public bool IsFurniturePositionValid(string furnitureId, Tile t){

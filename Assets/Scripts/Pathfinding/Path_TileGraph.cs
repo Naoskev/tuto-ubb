@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Path_TileGraph {
 
-	Dictionary<Tile, Path_Node<Tile>> nodes = new Dictionary<Tile, Path_Node<Tile>>();
+	public Dictionary<Tile, Path_Node<Tile>> Nodes {get; private set;}
+
 
 	public Path_TileGraph(World world){
+		Nodes = new Dictionary<Tile, Path_Node<Tile>>();
 
 		for (int x = 0; x < world.Width; x++)
 		{
@@ -14,12 +16,12 @@ public class Path_TileGraph {
 			{
 				Tile data = world.getTileAt(x,y);
 				if(data.MovementCost > 0){
-					nodes.Add(data, new Path_Node<Tile>(data));
+					Nodes.Add(data, new Path_Node<Tile>(data));
 				}
 			}
 		}
 
-		foreach (Tile tile in nodes.Keys)
+		foreach (Tile tile in Nodes.Keys)
 		{
 			Tile[] neighbours = tile.GetNeighbours(true);
 			List<Path_Edge<Tile>> edges = new List<Path_Edge<Tile>>();
@@ -28,11 +30,11 @@ public class Path_TileGraph {
 				if(neighbours[i] != null && neighbours[i].MovementCost > 0){
 					Path_Edge<Tile> edge = new Path_Edge<Tile>();
 					edge.cost = neighbours[i].MovementCost;
-					edge.node = this.nodes[neighbours[i]];
+					edge.node = this.Nodes[neighbours[i]];
 					edges.Add(edge);
 				}
 			}
-			this.nodes[tile].edges = edges.ToArray();
+			this.Nodes[tile].edges = edges.ToArray();
 		}
 	}
 

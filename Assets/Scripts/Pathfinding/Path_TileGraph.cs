@@ -27,7 +27,7 @@ public class Path_TileGraph {
 			List<Path_Edge<Tile>> edges = new List<Path_Edge<Tile>>();
 			for (int i = 0; i < 8; i++)
 			{
-				if(neighbours[i] != null && neighbours[i].MovementCost > 0){
+				if(neighbours[i] != null && neighbours[i].MovementCost > 0 && isClippingCorner(tile, neighbours[i], world) == false){
 					Path_Edge<Tile> edge = new Path_Edge<Tile>();
 					edge.cost = neighbours[i].MovementCost;
 					edge.node = this.Nodes[neighbours[i]];
@@ -36,6 +36,17 @@ public class Path_TileGraph {
 			}
 			this.Nodes[tile].edges = edges.ToArray();
 		}
+	}
+
+	private bool isClippingCorner(Tile start, Tile destination, World world){
+		int dX = destination.X - start.X, dY = destination.Y - start.Y;
+		if(Mathf.Abs(dX) + Mathf.Abs(dY) == 2){
+			Tile tX = world.getTileAt(start.X + dX, start.Y), tY = world.getTileAt(start.X, start.Y + dY);
+			if(tX == null || tX.MovementCost == 0) return true;
+			if(tY == null || tY.MovementCost == 0) return true;
+		}
+
+		return false;
 	}
 
 }

@@ -82,11 +82,11 @@ public class Tile {
 
     public bool IsNeighbourWith(Tile otherTile, bool onlyCardinal){
         int XDistance = Math.Abs(this.X - otherTile.X), YDistance = Math.Abs(this.Y - otherTile.Y);
-
+        bool isCardinal = XDistance + YDistance ==  1;
         if(onlyCardinal){
-            return (XDistance == 1 && YDistance == 0) || (XDistance == 0 && YDistance == 1);  
+            return isCardinal;  
         }
-        return XDistance <= 0 && YDistance <= 1;
+        return isCardinal || XDistance + YDistance == 2;
     }
 
     public Tile[] GetNeighbours(bool diagOk){

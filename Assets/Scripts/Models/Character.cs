@@ -33,7 +33,7 @@ public class Character {
     Action<Character> cbOnChanged;
 
 
-	public Character(Tile startTile, float movementSpeed = 2f){
+	public Character(Tile startTile, float movementSpeed = 4f){
 		this.CurrentTile = this.nextTile = this.destinationTile = startTile;
 		this.movementSpeed = movementSpeed;
 

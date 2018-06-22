@@ -7,12 +7,12 @@ public class Character {
 
 	public float X {
 		get{
-			return Mathf.Lerp(CurrentTile.X, destinationTile.X, currentDistanceMovedPercentage);
+			return Mathf.Lerp(CurrentTile.X, nextTile.X, currentDistanceMovedPercentage);
 		}
 	}
 	public float Y {
 		get{
-			return Mathf.Lerp(CurrentTile.Y, destinationTile.Y, currentDistanceMovedPercentage);
+			return Mathf.Lerp(CurrentTile.Y, nextTile.Y, currentDistanceMovedPercentage);
 		}
 	}
 
@@ -24,20 +24,22 @@ public class Character {
 
 
 	public Tile CurrentTile {get; protected set;}
+	Tile nextTile;
+	
 	Tile destinationTile;
+	Path_AStar pathfinding;
 
 	Job currentJob;
     Action<Character> cbOnChanged;
 
 
 	public Character(Tile startTile, float movementSpeed = 2f){
-		this.CurrentTile = this.destinationTile = startTile;
+		this.CurrentTile = this.nextTile = this.destinationTile = startTile;
 		this.movementSpeed = movementSpeed;
 
 	}
 
-
-	public void Update(float deltaTime){
+	private void Update_DoWork(float deltaTime){
 		if(this.currentJob == null){
 			this.currentJob = WorldController.Instance.WorldData.JobQueue.Dequeue();
 			if(this.currentJob != null){
@@ -49,13 +51,38 @@ public class Character {
 
 
 		if(this.CurrentTile == this.destinationTile){
-			if(this.currentJob != null && this.currentJob.Tile == this.CurrentTile){
+			if(this.currentJob != null && this.CurrentTile.IsNeighbourWith(this.currentJob.Tile, false)){
 				this.currentJob.DoWork(deltaTime);
 			}
+		}
+	}
+
+	private void Update_DoMovement(float deltaTime){
+		if(this.destinationTile == this.CurrentTile){
+			this.pathfinding = null;
 			return;
 		}
 
-		float distanceBetweenTiles = Mathf.Sqrt( Mathf.Pow(destinationTile.X - CurrentTile.X, 2f) +  Mathf.Pow(destinationTile.Y - CurrentTile.Y, 2f));
+		if(this.pathfinding == null){
+			this.pathfinding = new Path_AStar(WorldController.Instance.WorldData, this.CurrentTile, this.destinationTile);
+			if(this.pathfinding.HasPath == false){
+				this.currentJob.CancelJob();
+				this.currentJob = null;
+				this.pathfinding = null;
+				this.nextTile = this.destinationTile = this.CurrentTile;
+				return;
+			}
+		}
+		if(this.CurrentTile == this.nextTile){
+			this.nextTile = this.pathfinding.GetNextTile();		
+			if(this.nextTile == destinationTile){
+				this.destinationTile = this.nextTile = this.CurrentTile;
+				return;
+			}	
+		}
+
+		
+		float distanceBetweenTiles = Mathf.Sqrt( Mathf.Pow(nextTile.X - CurrentTile.X, 2f) +  Mathf.Pow(nextTile.Y - CurrentTile.Y, 2f));
 		float distanceToTravelThisFrame = deltaTime * movementSpeed;
 		float distanceToTravelAsPercentage = distanceToTravelThisFrame / distanceBetweenTiles;
 
@@ -66,11 +93,17 @@ public class Character {
 		}
 
 		if(this.currentDistanceMovedPercentage >= 1){
-			this.CurrentTile = this.destinationTile;
+			this.CurrentTile = this.nextTile;
 			this.currentDistanceMovedPercentage = 0;
 
 			// FIXME? conservation du mouvement ?
 		}
+	}
+
+	public void Update(float deltaTime){
+		Update_DoWork(deltaTime);
+
+		Update_DoMovement(deltaTime);
 	}
 
 	public void SetDestination(Tile tile){
@@ -78,7 +111,7 @@ public class Character {
 			Logger.LogError("Un personnage doit avoir comme destination une case adjacente");
 		}
 
-		this.destinationTile = tile;
+		this.nextTile = tile;
 	}
 
 	private void OnJobEnded(Job job){

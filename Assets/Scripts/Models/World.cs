@@ -62,7 +62,7 @@ public class World {
 		this.furniturePrototypes = new Dictionary<string, Furniture>();
 
 
-		this.furniturePrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 1f, 1,1, true));
+		this.furniturePrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 0, 1,1, true));
 	}
 
 

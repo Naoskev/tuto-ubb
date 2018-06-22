@@ -1,12 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Path_AStar {
 
 	Queue<Tile> calculated_path = new Queue<Tile>();
 
+	public bool HasPath  { get {return this.calculated_path.Count > 0;}}
+
 	public Path_AStar(World World, Tile startTile, Tile endTile){
 
+		if(World.TileGraph.Nodes.ContainsKey(startTile) == false || World.TileGraph.Nodes[startTile] == null){
+			Logger.LogError("Tile de départ du pathfinding invalide :"+startTile);
+			return;
+		}
+		if(World.TileGraph.Nodes.ContainsKey(endTile) == false || World.TileGraph.Nodes[endTile] == null){
+			Logger.LogError("Tile de fin du pathfinding invalide :"+endTile);
+			return;
+		}
 		Path_Node<Tile> start = World.TileGraph.Nodes[startTile], goal = World.TileGraph.Nodes[endTile];
 
 		List<Path_Node<Tile>> closedSet = new List<Path_Node<Tile>>();
@@ -82,16 +93,14 @@ public class Path_AStar {
 	}
 
 	private void reconstructPath(Dictionary<Path_Node<Tile>,Path_Node<Tile>> cameFrom, Path_Node<Tile> current){
-		// Queue<Path_Node<Tile>> path = new Queue<Path_Node<Tile>>();
-		calculated_path.Enqueue(current.data);
+		Queue<Tile> path = new Queue<Tile>();
+		path.Enqueue(current.data);
 		while(cameFrom.ContainsKey(current)){
 			current = cameFrom[current];
-			calculated_path.Enqueue(current.data);
+			path.Enqueue(current.data);
 		}
 
-		// while(calculated_path.Count >0){
-		// 	this.calculated_path.Enqueue(path.Dequeue().data);
-		// }
+		this.calculated_path = new Queue<Tile>(path.Reverse().ToArray());
 	}
 
 }

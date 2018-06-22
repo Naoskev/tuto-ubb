@@ -15,7 +15,7 @@ public class Job {
 	public string JobObjectType {get; protected set;}
 
 
-	public Job(Tile tile, string objectType, Action<Job> completeCallback,  float jobDuration = 1f){
+	public Job(Tile tile, string objectType, Action<Job> completeCallback,  float jobDuration = 0.3f){
 		this.Tile = tile;
 		this.cbJobComplete = completeCallback;
 		this.jobTime = jobDuration;

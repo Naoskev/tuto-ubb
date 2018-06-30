@@ -30,7 +30,7 @@ public class World {
 			return this._tileGraph;
 	} }
 
-	public World(int width = 100, int heigth=100){
+	public World(int width = 100, int heigth=100, bool empty = false){
 		this.Width = width;
 		this.Height = heigth;
 		this.JobQueue = new JobQueue();
@@ -49,6 +49,9 @@ public class World {
 		this.initializeInstalledObjectPrototypes();
 
 		// this.SetupPathfindingExample();
+		if(empty == false){
+			this.CreateCharacter(this.getTileAt(this.Width / 2, this.Height / 2));
+		}
 	}
 
 	public void Update(float time){
@@ -195,5 +198,12 @@ public class World {
 
 		Logger.LogError("Aucun prototype pour le meuble d'id : "+id);
 		return null;
+	}
+
+	public void ApplyToTiles(Action<Tile> callback){
+		foreach (Tile tile in this.tiles)	
+		{
+			callback(tile);	
+		}
 	}
 }

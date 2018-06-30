@@ -21,11 +21,11 @@ public static class SaveManager{
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Furnitures");
-            world.ApplyToTiles((t) => t.SaveTile(xmlWriter));
+            world.Furnitures.ForEach(f => f.SaveFurniture(xmlWriter));
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteStartElement("Characters");
-            world.ApplyToTiles((t) => t.SaveTile(xmlWriter));
+            world.Characters.ForEach(c => c.SaveCharacter(xmlWriter));;
             xmlWriter.WriteEndElement();
 
             xmlWriter.WriteEndElement();
@@ -45,12 +45,19 @@ public static class SaveManager{
         xmlWriter.WriteEndElement();
     }
 
-    private static void SaveFurniture(Furniture furn, XmlWriter writer){
-
+    private static void SaveFurniture(this Furniture furn, XmlWriter xmlWriter){    
+        xmlWriter.WriteStartElement("Furniture");
+        xmlWriter.WriteAttributeString("X", furn.MasterTile.X.ToString());
+        xmlWriter.WriteAttributeString("Y", furn.MasterTile.Y.ToString());
+        xmlWriter.WriteAttributeString("Id", furn.Id);
+        xmlWriter.WriteEndElement();
     }
 
-    private static void SaveCharacter(Character character, XmlWriter writer){
-
+    private static void SaveCharacter(this Character character, XmlWriter xmlWriter){    
+        xmlWriter.WriteStartElement("Character");
+        xmlWriter.WriteAttributeString("X", character.CurrentTile.X.ToString());
+        xmlWriter.WriteAttributeString("Y", character.CurrentTile.Y.ToString());
+        xmlWriter.WriteEndElement();
     }
 
 
@@ -68,18 +75,16 @@ public static class SaveManager{
                             world.LoadTile(xmlReader);
                             break;
                         case "Furniture":
-                            
+                            world.LoadFurniture(xmlReader);       
                             break;
                         case "Character":
-
+                            world.LoadCharacter(xmlReader);
                             break;
-
                     }
                 }
 
                 return world;
             }
-
         }
     }
 
@@ -93,8 +98,13 @@ public static class SaveManager{
     private static void LoadFurniture(this World world, XmlReader xmlReader){
         int x = int.Parse(xmlReader.GetAttribute("X")), y = int.Parse(xmlReader.GetAttribute("Y"));
         string furnId = xmlReader.GetAttribute("Id");
-        Tile t = world.getTileAt(x, y);
-        
+        // TODO recup  autre infos 
+        Furniture f = world.PlaceFurniture(furnId, world.getTileAt(x, y));  
     }
 
+    private static void LoadCharacter(this World world, XmlReader xmlReader){
+        int x = int.Parse(xmlReader.GetAttribute("X")), y = int.Parse(xmlReader.GetAttribute("Y"));
+
+        Character c = world.CreateCharacter(world.getTileAt(x, y));
+    }
 }

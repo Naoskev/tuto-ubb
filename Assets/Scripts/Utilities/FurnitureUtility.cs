@@ -20,7 +20,7 @@ public static class FurnitureUtility {
 
 		foreach (Vector2Int direction in directionToGet)
 		{
-			Tile tile = WorldController.Instance.WorldData.getNeighbourTile(originTile, direction.x, direction.y);
+			Tile tile = originTile.GetNeighbour(direction.x, direction.y);
 			if(tile != null && tile.Furniture!= null && tile.Furniture.Id == furnitureId){
 				queue.Enqueue(new KeyValuePair<Vector2Int, Furniture>(direction, tile.Furniture));
 			}

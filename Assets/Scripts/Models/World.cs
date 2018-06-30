@@ -6,7 +6,8 @@ using System;
 public class World {
 
  	Tile[,] tiles;
-	List<Character> characters = new List<Character>();
+	public List<Character> Characters { get; protected set; }
+	public List<Furniture> Furnitures { get; protected set; }
 
 
     public int Width { get; private set; }
@@ -34,6 +35,8 @@ public class World {
 		this.Width = width;
 		this.Height = heigth;
 		this.JobQueue = new JobQueue();
+		this.Furnitures = new List<Furniture>();
+		this.Characters = new List<Character>();
 
 		this.tiles = new Tile[width, heigth];
 
@@ -55,7 +58,7 @@ public class World {
 	}
 
 	public void Update(float time){
-		foreach (Character character in this.characters)
+		foreach (Character character in this.Characters)
 		{
 			character.Update(time);
 		}
@@ -117,32 +120,36 @@ public class World {
 		}
 	}
 
-	public void PlaceFurniture(string furnitureId, Tile tile){
+	public Furniture PlaceFurniture(string furnitureId, Tile tile){
 		if(this.furniturePrototypes.ContainsKey(furnitureId) == false){
 			Logger.LogError("Aucun prototype pour le meuble d'id : "+furnitureId);
-			return;
+			return null;
 		}
 
 		Furniture furniture = Furniture.PlaceInstance(this.furniturePrototypes[furnitureId], tile);
 
 		if(furniture == null){
 			Logger.LogError("Cannot place furniture on tile "+tile);
-			return;
+			return null;
 		}
+		this.Furnitures.Add(furniture);
 
 		if(this.cbOnFurniturePlaced != null){
 			cbOnFurniturePlaced(furniture);
 			this.invalidTileGraph();
 		}
+		return furniture;
 	}
 
-	public void CreateCharacter(Tile t){
+	public Character CreateCharacter(Tile t){
 		Character character = new Character(t);
-		this.characters.Add(character);
+		this.Characters.Add(character);
 
 		if(this.cbOnCharacterCreated != null){
 			this.cbOnCharacterCreated(character);
 		}
+
+		return character;
 	}
 
 	public void RegisterOnFurniturePlaced(Action<Furniture> callback){
@@ -188,7 +195,7 @@ public class World {
 	}	
 	
 	public Tile getNeighbourTile(Tile originTile, int vectorX, int vectorY){
-		return  WorldController.Instance.WorldData.getTileAt(originTile.X + vectorX, originTile.Y + vectorY);
+		return  this.getTileAt(originTile.X + vectorX, originTile.Y + vectorY);
 	}
 
 	public Furniture getFurniturePrototype(string id){

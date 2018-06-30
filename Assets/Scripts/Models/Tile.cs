@@ -98,17 +98,21 @@ public class Tile {
             result = new Tile[4];
         }
 
-        result[0] = WorldController.Instance.WorldData.getNeighbourTile(this, 0, 1);
-        result[2] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, 0);
-        result[4] = WorldController.Instance.WorldData.getNeighbourTile(this, 0, -1);
-        result[6] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, 0);
+        result[0] = this.GetNeighbour(0, 1);
+        result[2] = this.GetNeighbour( 1, 0);
+        result[4] = this.GetNeighbour( 0, -1);
+        result[6] = this.GetNeighbour( -1, 0);
 
         if(diagOk){            
-            result[1] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, 1);
-            result[3] = WorldController.Instance.WorldData.getNeighbourTile(this, 1, -1);
-            result[5] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, -1);
-            result[7] = WorldController.Instance.WorldData.getNeighbourTile(this, -1, 1);
+            result[1] = this.GetNeighbour( 1, 1);
+            result[3] = this.GetNeighbour( 1, -1);
+            result[5] = this.GetNeighbour( -1, -1);
+            result[7] = this.GetNeighbour( -1, 1);
         }
         return result;
+    }
+
+    public Tile GetNeighbour(int x, int y){
+        return this.world.getNeighbourTile(this, x, y);
     }
 }

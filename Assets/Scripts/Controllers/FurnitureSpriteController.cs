@@ -19,6 +19,11 @@ public class FurnitureSpriteController : MonoBehaviour {
 		}
 
 		this._world.RegisterOnFurniturePlaced(this.OnFurniturePlaced);
+
+		foreach (Furniture furn in this._world.Furnitures)
+		{
+			this.OnFurniturePlaced(furn);
+		}
 	}
 
 	public void OnFurniturePlaced(Furniture furniture){		

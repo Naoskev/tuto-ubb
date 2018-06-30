@@ -38,18 +38,17 @@ public class WorldController : MonoBehaviour {
 	}
 
 	void Update(){
-	//	this.WorldData.Update(Time.deltaTime);
+		this.WorldData.Update(Time.deltaTime);
 	}
 	
 	public Tile getTileFromVector(Vector3 coord){
 		int x = Mathf.FloorToInt(coord.x);
 		int y = Mathf.FloorToInt(coord.y);
 		
-		return WorldController.Instance.WorldData.getTileAt(x, y);
+		return this.WorldData.getTileAt(x, y);
 	}
 
 	public void SaveWorld(){
-		Debug.Log(this.WorldData.SaveWorld());
 		PlayerPrefs.SetString(QUICK_SAVE, this.WorldData.SaveWorld());
 	}
 
@@ -65,8 +64,19 @@ public class WorldController : MonoBehaviour {
 
 	private void LoadWorldFromSaveFile(){
 		string saveData = PlayerPrefs.GetString(QUICK_SAVE);
-		Logger.LogInfo(saveData);
-		this.WorldData = SaveManager.LoadWorld(saveData);
+		if(saveData == null || saveData.Length == 0){
+			Logger.LogError("Aucune sauvegarde à charger !");
+			this.CreateEmptyWorld();
+			return;
+		}
+		try{
+			this.WorldData = SaveManager.LoadWorld(saveData);
+		}
+		catch(System.Exception e){
+			Logger.LogError("Echec du chargement de la sauvegarde : "+e.ToString());
+			this.CreateEmptyWorld();
+			// TODO quitter et avertir l'utilisateur
+		}
 	}
 
 	private void CreateEmptyWorld(){

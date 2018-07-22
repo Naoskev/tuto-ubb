@@ -16,9 +16,11 @@ public class JobSpriteController : MonoBehaviour {
 	}
 
 	void OnJobCreated(Job job){
-		job.RegisterCancelledCallback(OnJobEnded);
-		job.RegisterCompleteCallback(OnJobEnded);
 
+		if(this.jobGameObjects.ContainsKey(job)){
+			Debug.Log("Le job "+job+" existe déjà.");
+			return;
+		}
 		GameObject job_go = new GameObject("JOB_"+ job.JobObjectType +"_at_"+job.Tile.X+"_"+job.Tile.Y);
 		this.jobGameObjects.Add(job, job_go);
 
@@ -30,6 +32,9 @@ public class JobSpriteController : MonoBehaviour {
 		sr.sprite = fsc.getFurnitureSprite(prototype.Id, job.Tile, prototype.IsConnected);
 		sr.color = new Color(1f, 1f, 1f, 0.25f);
 		sr.sortingLayerName = LayerName.JOB.GetDescription();
+
+		job.RegisterCancelledCallback(OnJobEnded);
+		job.RegisterCompleteCallback(OnJobEnded);
 	}
 
 	void OnJobEnded(Job job){

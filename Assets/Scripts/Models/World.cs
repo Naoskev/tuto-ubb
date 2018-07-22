@@ -58,8 +58,10 @@ public class World {
 	}
 
 	public void Update(float time){
-		foreach (Character character in this.Characters)
-		{
+		foreach(Furniture furn in this.Furnitures){
+			furn.Update(time);
+		}
+		foreach (Character character in this.Characters){
 			character.Update(time);
 		}
 	}
@@ -69,7 +71,7 @@ public class World {
 
 
 		this.furniturePrototypes.Add("Wall", new Furniture("Wall", 0, 1,1, true));
-		this.furniturePrototypes.Add("Door", new Furniture("Door", 0, 1,1, false));
+		this.furniturePrototypes.Add("Door", new Furniture("Door", 1, 1,1, false));
 		this.furniturePrototypes["Door"].furnitureParameters["openess"] = 0;
 		this.furniturePrototypes["Door"].updateAction += FurnitureActions.Door_UpdateAction;
 	}

@@ -81,9 +81,13 @@ public class Character {
 			}	
 		}
 
-		
+		// Si le terrain devient infranchissable, on refait le pathfinding
+		if(this.nextTile.MovementCost == 0){
+			this.pathfinding = null;
+			return;
+		}
 		float distanceBetweenTiles = Mathf.Sqrt( Mathf.Pow(nextTile.X - CurrentTile.X, 2f) +  Mathf.Pow(nextTile.Y - CurrentTile.Y, 2f));
-		float distanceToTravelThisFrame = deltaTime * movementSpeed;
+		float distanceToTravelThisFrame = deltaTime * movementSpeed / this.nextTile.MovementCost;
 		float distanceToTravelAsPercentage = distanceToTravelThisFrame / distanceBetweenTiles;
 
 		this.currentDistanceMovedPercentage += distanceToTravelAsPercentage;

@@ -20,7 +20,7 @@ public class Furniture {
     Func<Tile, bool> _isValidPosition;
 
 
-    public Dictionary<string, object> furnitureParameters;
+    public Dictionary<string, float> furnitureParameters;
     public Action<Furniture, float> updateAction;
 
 
@@ -35,7 +35,7 @@ public class Furniture {
     }
 
     protected Furniture(){
-        this.furnitureParameters = new Dictionary<string, object>();
+        this.furnitureParameters = new Dictionary<string, float>();
     }
 
     protected Furniture(Furniture other){
@@ -45,7 +45,7 @@ public class Furniture {
         this.Height = other.Height;
         this.IsConnected = other.IsConnected;
         this._isValidPosition = other._isValidPosition;
-        this.furnitureParameters = new Dictionary<string, object>();
+        this.furnitureParameters = new Dictionary<string, float>();
         if(other.updateAction != null){
             this.updateAction = (Action<Furniture, float>) other.updateAction.Clone();
         }
@@ -64,7 +64,7 @@ public class Furniture {
         this.IsConnected = isConnected;
 
         this._isValidPosition = this.isValidPosition_Base;
-        this.furnitureParameters = new Dictionary<string, object>();
+        this.furnitureParameters = new Dictionary<string, float>();
     }
 
     public static Furniture PlaceInstance(Furniture proto, Tile tile){
@@ -84,7 +84,9 @@ public class Furniture {
         if(obj.IsConnected){
             foreach (var neighbour in FurnitureUtility.GetCardinalNeighboords(obj.Id, obj.MasterTile))
             {
-                neighbour.Value.cbOnChanged(neighbour.Value);
+                if(neighbour.Value.cbOnChanged != null){
+                    neighbour.Value.cbOnChanged(neighbour.Value);
+                }
             }
         }
 

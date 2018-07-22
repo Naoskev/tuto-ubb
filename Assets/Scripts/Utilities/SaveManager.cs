@@ -50,6 +50,13 @@ public static class SaveManager{
         xmlWriter.WriteAttributeString("X", furn.MasterTile.X.ToString());
         xmlWriter.WriteAttributeString("Y", furn.MasterTile.Y.ToString());
         xmlWriter.WriteAttributeString("Id", furn.Id);
+        foreach (string element in furn.furnitureParameters.Keys)
+        {
+            xmlWriter.WriteStartElement("Parameter");
+            xmlWriter.WriteAttributeString("Id", element);
+            xmlWriter.WriteAttributeString("Value", furn.furnitureParameters[element].ToString());
+            xmlWriter.WriteEndElement();
+        }
         xmlWriter.WriteEndElement();
     }
 
@@ -98,8 +105,19 @@ public static class SaveManager{
     private static void LoadFurniture(this World world, XmlReader xmlReader){
         int x = int.Parse(xmlReader.GetAttribute("X")), y = int.Parse(xmlReader.GetAttribute("Y"));
         string furnId = xmlReader.GetAttribute("Id");
+
+        
         // TODO recup  autre infos 
         Furniture f = world.PlaceFurniture(furnId, world.getTileAt(x, y));  
+
+        if(xmlReader.ReadToDescendant("Parameter"))
+        {
+           do {
+               string key = xmlReader.GetAttribute("Id");
+               float value = float.Parse(xmlReader.GetAttribute("Value"));
+                f.furnitureParameters[key] = value;
+           } while (xmlReader.ReadToNextSibling("Parameter"));
+        }
     }
 
     private static void LoadCharacter(this World world, XmlReader xmlReader){

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 /** Objet fixe */
 public class Furniture {
@@ -18,37 +19,59 @@ public class Furniture {
 
     Func<Tile, bool> _isValidPosition;
 
+
+    public Dictionary<string, object> furnitureParameters;
+    public Action<Furniture, float> updateAction;
+
+
+    public void Update(float deltaTime){
+        if(this.updateAction != null){
+            this.updateAction(this, deltaTime);
+        }
+    }
+
     public bool IsValidPosition(Tile t){
         return this._isValidPosition(t);
     }
 
     protected Furniture(){
+        this.furnitureParameters = new Dictionary<string, object>();
     }
 
-    public static Furniture CreatePrototype(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
-        Furniture obj = new Furniture();
-        obj.Id = id;
-        obj.MovementCost = movementCost;
-        obj.Width = width;
-        obj.Height = height;
-        obj.IsConnected = isConnected;
+    protected Furniture(Furniture other){
+        this.Id = other.Id;
+        this.MovementCost = other.MovementCost;
+        this.Width = other.Width;
+        this.Height = other.Height;
+        this.IsConnected = other.IsConnected;
+        this._isValidPosition = other._isValidPosition;
+        this.furnitureParameters = new Dictionary<string, object>();
+        if(other.updateAction != null){
+            this.updateAction = (Action<Furniture, float>) other.updateAction.Clone();
+        }
+    }
 
-        obj._isValidPosition = obj.isValidPosition_Base;
-        return obj;
+    public virtual Furniture Clone(){
+        return new Furniture(this);
+    }
+
+    // Create furniture from parameter : only for prototypes
+    public Furniture(string id, float movementCost = 1f, int width = 1, int height = 1, bool isConnected = false){
+        this.Id = id;
+        this.MovementCost = movementCost;
+        this.Width = width;
+        this.Height = height;
+        this.IsConnected = isConnected;
+
+        this._isValidPosition = this.isValidPosition_Base;
+        this.furnitureParameters = new Dictionary<string, object>();
     }
 
     public static Furniture PlaceInstance(Furniture proto, Tile tile){
         if(proto._isValidPosition(tile) == false){
             return null;
         }
-        Furniture obj = new Furniture();
-        obj.Id = proto.Id;
-        obj.MovementCost = proto.MovementCost;
-        obj.Width = proto.Width;
-        obj.Height = proto.Height;
-        obj.IsConnected = proto.IsConnected;
-        obj._isValidPosition = proto._isValidPosition;
-
+        Furniture obj = proto.Clone();
         // TODO : gérer les objets sur plusieurs tuiles
         obj.MasterTile = tile;
 

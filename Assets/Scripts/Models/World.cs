@@ -68,7 +68,10 @@ public class World {
 		this.furniturePrototypes = new Dictionary<string, Furniture>();
 
 
-		this.furniturePrototypes.Add("Wall", Furniture.CreatePrototype("Wall", 0, 1,1, true));
+		this.furniturePrototypes.Add("Wall", new Furniture("Wall", 0, 1,1, true));
+		this.furniturePrototypes.Add("Door", new Furniture("Door", 0, 1,1, false));
+		this.furniturePrototypes["Door"].furnitureParameters["openess"] = 0;
+		this.furniturePrototypes["Door"].updateAction += FurnitureActions.Door_UpdateAction;
 	}
 
 
